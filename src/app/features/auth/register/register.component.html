@@ -13,7 +13,6 @@
                 [class.is-invalid]="registerForm.get('razonSocial')?.invalid && registerForm.get('razonSocial')?.touched">
             <div class="error-message" *ngIf="registerForm.get('razonSocial')?.invalid && registerForm.get('razonSocial')?.touched">
             <span *ngIf="registerForm.get('razonSocial')?.errors?.['required']">Este campo es obligatorio.</span>
-            <span *ngIf="registerForm.get('razonSocial')?.errors?.['minlength']">Debe tener al menos 3 caracteres.</span>
             <span *ngIf="registerForm.get('razonSocial')?.errors?.['pattern']">Contiene caracteres no válidos.</span>
             </div>
         </div>
@@ -28,11 +27,11 @@
 
         <div class="form-group">
             <label class="form-label">Correo Electrónico</label>
-            <input type="email" class="form-input" formControlName="email" placeholder="tucorreo@empresa.com"
+            <input type="email" class="form-input" formControlName="email" placeholder="tucorreo&#64;empresa.com"
                 [class.is-invalid]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
             <div class="error-message" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
             <span *ngIf="registerForm.get('email')?.errors?.['required']">El correo es obligatorio.</span>
-            <span *ngIf="registerForm.get('email')?.errors?.['pattern']">Ingresa un formato de correo real (ej. nombre@dominio.com).</span>
+            <span *ngIf="registerForm.get('email')?.errors?.['pattern']">Ingresa un formato de correo real (ej. nombre&#64;dominio.com).</span>
             </div>
         </div>
 
@@ -47,18 +46,79 @@
                 <svg *ngIf="showPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
             </button>
             </div>
-            
             <div class="error-message" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
             <span *ngIf="registerForm.get('password')?.errors?.['required']">La contraseña es obligatoria.</span>
-            <span *ngIf="registerForm.get('password')?.errors?.['pattern']">Debe tener min. 8 caracteres, incluir una mayúscula, un número y un caracter especial.</span>
+            <span *ngIf="registerForm.get('password')?.errors?.['pattern']">Mín. 8 caracteres, una mayúscula, un número y un caracter especial.</span>
             </div>
         </div>
 
-        <button type="submit" class="btn-primary">Crear Cuenta</button>
+        <div class="form-group eula-checkbox-container" style="margin-top: 1.5rem;">
+            <input type="checkbox" id="eula" formControlName="eula" class="custom-checkbox">
+            <label for="eula" class="text-muted text-xs" [class.disabled-text]="!eulaScrolled">
+            He leído y acepto el 
+            <button type="button" class="link-btn-modal" (click)="openEulaModal($event)">Contrato de Adhesión (EULA)</button> 
+            y consiento el tratamiento de mis datos.
+            </label>
+        </div>
+
+        <button type="submit" class="btn-primary" [disabled]="registerForm.invalid">Crear Cuenta</button>
         </form>
 
         <div class="auth-footer">
         <p>¿Ya tienes una cuenta? <a routerLink="/login">Inicia Sesión</a></p>
         </div>
+    </div>
+    </div>
+
+    <div class="modal-overlay" *ngIf="isEulaModalOpen" (click)="closeEulaModal()">
+    <div class="modal-card" (click)="$event.stopPropagation()">
+        
+        <div class="modal-header">
+        <h3>Términos y Condiciones de Uso</h3>
+        <button type="button" class="btn-close" (click)="closeEulaModal()">&times;</button>
+        </div>
+
+        <div class="modal-body" (scroll)="onEulaScroll($event)">
+        <p class="text-muted text-xs mb-4">Por favor, desplázate hasta el final para habilitar la casilla de aceptación.</p>
+        
+        <div class="eula-section">
+            <h4>1. Aceptación del Servicio</h4>
+            <p>Al utilizar FacturaLista, usted acepta quedar vinculado por estos términos legales para el uso de nuestro software como servicio (SaaS).</p>
+        </div>
+
+        <div class="eula-section">
+            <h4>2. Privacidad y Derechos ARCO</h4>
+            <p>En estricto cumplimiento con la legislación de protección de datos de Bolivia, usted conserva en todo momento el derecho de <strong>Acceso, Rectificación, Cancelación y Oposición</strong> respecto a sus datos fiscales y de usuario registrados en esta plataforma.</p>
+        </div>
+
+        <div class="eula-section">
+            <h4>3. Límite de Responsabilidad</h4>
+            <p>El software funciona exclusivamente como una herramienta de digitalización y apoyo contable. La responsabilidad final y legal sobre la declaración del Libro de Compras y Ventas (LCV) recae íntegramente sobre el contribuyente ante el Servicio de Impuestos Nacionales (SIN).</p>
+        </div>
+
+        <div class="eula-section">
+            <h4>4. Seguridad de la Información</h4>
+            <p>Sus datos personales y las fotografías o documentos de sus facturas están cifrados. Se utilizarán de manera exclusiva para la extracción de la información tributaria requerida para la funcionalidad de su cuenta.</p>
+        </div>
+
+        <div class="eula-section">
+            <h4>5. Licencia de Uso</h4>
+            <p>Se le otorga una licencia limitada, no exclusiva e intransferible para el uso de las herramientas de esta plataforma dentro del territorio nacional.</p>
+        </div>
+
+        <div class="eula-section">
+            <h4>6. Derecho de Cancelación</h4>
+            <p>Puede ejercer su derecho de cancelación en cualquier momento desde el panel de configuración de su cuenta. Dicha acción desencadenará la eliminación de sus datos de forma permanente de nuestros servidores, sin posibilidad de recuperación.</p>
+        </div>
+        
+        <p class="text-center text-muted" style="margin-top: 2rem; font-weight: bold;">--- Fin del Documento ---</p>
+        </div>
+
+        <div class="modal-footer">
+        <span class="text-xs text-muted" *ngIf="!eulaScrolled">Sigue leyendo para habilitar...</span>
+        <span class="text-xs text-success" *ngIf="eulaScrolled" style="color: var(--secondary-color); font-weight: 600;">✓ Contrato leído</span>
+        <button type="button" class="btn-primary" style="width: auto; padding: 0.5rem 1.5rem;" [disabled]="!eulaScrolled" (click)="closeEulaModal()">Entendido</button>
+        </div>
+
     </div>
 </div>

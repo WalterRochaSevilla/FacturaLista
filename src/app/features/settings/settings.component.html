@@ -1,0 +1,93 @@
+<div class="app-layout">
+    <app-navbar></app-navbar>
+
+    <main class="dashboard-content settings-container">
+        <header class="page-header header-spaced">
+        <div class="header-titles">
+            <h1 class="page-title">Configuración de la Cuenta</h1>
+            <p class="page-subtitle">Gestiona tu identidad fiscal y tus preferencias de privacidad.</p>
+        </div>
+        <div class="header-back-link">
+            <a routerLink="/dashboard" class="btn-outline link-no-decor">← Volver al Panel</a>
+        </div>
+        </header>
+
+        <div class="settings-grid">
+        <section class="card settings-section">
+            <div class="section-header">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-primary"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+            <h2>Perfil e Identidad Fiscal</h2>
+            </div>
+            
+            <form [formGroup]="profileForm" (ngSubmit)="onSaveProfile()">
+            <div class="form-group">
+                <label class="form-label">Razón Social / Nombre</label>
+                <input type="text" class="form-input" formControlName="name">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Correo Electrónico (No editable)</label>
+                <input type="email" class="form-input" formControlName="email">
+            </div>
+
+            <div class="form-row">
+                <div class="form-col-small">
+                <label class="form-label">Tipo de Documento</label>
+                <select class="form-input select-with-arrow" formControlName="documentType">
+                    <option value="nit">NIT (Empresa)</option>
+                    <option value="ci">Cédula de Identidad</option>
+                </select>
+                </div>
+                <div class="form-col-large">
+                <label class="form-label">Número de Documento</label>
+                <input type="text" class="form-input" formControlName="documentNumber" placeholder="Ej. 1234567015">
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-primary" [disabled]="profileForm.invalid">Guardar Cambios</button>
+                <span class="success-msg" *ngIf="savedMessage">¡Perfil actualizado correctamente!</span>
+            </div>
+            </form>
+        </section>
+
+        <section class="card settings-section danger-zone-container">
+            <div class="section-header">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-warning"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <h2>Privacidad y Datos (ARCO)</h2>
+            </div>
+            <p class="text-sm text-muted mb-4">
+            En cumplimiento con las normativas de protección de datos, tienes derecho a gestionar tu información personal en nuestra plataforma.
+            </p>
+
+            <div class="arco-action">
+            <div class="arco-info">
+                <h4>Derecho de Acceso y Portabilidad</h4>
+                <p>Descarga una copia completa de todos tus registros, LCV y facturas procesadas en formato legible.</p>
+            </div>
+            <button class="btn-outline arco-btn" (click)="downloadData()">Exportar mis datos</button>
+            </div>
+
+            <hr class="divider">
+
+            <div class="arco-action">
+            <div class="arco-info">
+                <h4>Documentación Legal</h4>
+                <p>Revisa el Contrato de Adhesión (EULA) aceptado al momento de crear tu cuenta.</p>
+            </div>
+            <button class="btn-outline arco-btn" onclick="alert('Abriendo documento legal...')">Ver Contrato EULA</button>
+            </div>
+
+            <hr class="divider">
+
+            <div class="arco-action danger-zone">
+            <div class="arco-info">
+                <h4 class="text-danger">Derecho de Cancelación</h4>
+                <p>Elimina permanentemente tu cuenta y revoca el contrato EULA de adhesión. Esta acción no se puede deshacer.</p>
+            </div>
+            <button class="btn-danger arco-btn" (click)="deleteAccount()">Eliminar cuenta</button>
+            </div>
+        </section>
+        </div>
+    </main>
+</div>

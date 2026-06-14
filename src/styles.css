@@ -1,13 +1,21 @@
 :root {
-    --primary-color: #2563eb;
-    --primary-hover: #1d4ed8;
-    --secondary-color: #10b981;
-    --text-main: #1f2937;
-    --text-muted: #6b7280;
-    --bg-main: #f3f4f6;
+    --primary-color: #4f46e5; 
+    --primary-hover: #4338ca;
+    --secondary-color: #0d9488; 
+    --warning-color: #d97706; 
+    --danger-color: #e11d48; 
+    
+    --text-main: #111827;  
+    --text-muted: #4b5563;
+    --bg-main: #f8fafc; 
     --bg-card: #ffffff;
-    --border-color: #e5e7eb;
-    --danger-color: #ef4444;
+    --border-color: #e2e8f0;
+    --focus-ring: rgba(79, 70, 229, 0.3);
+}
+
+*:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--focus-ring);
 }
 
 body, html {

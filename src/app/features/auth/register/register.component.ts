@@ -13,28 +13,38 @@ import { CommonModule } from '@angular/common';
 export class RegisterComponent {
   registerForm: FormGroup;
   showPassword = false;
+  
+  // Variables para el Modal y Scroll
+  isEulaModalOpen = false;
+  eulaScrolled = false;
 
   constructor(private fb: FormBuilder, private router: Router) {
     this.registerForm = this.fb.group({
-      razonSocial: ['', [
-        Validators.required, 
-        Validators.minLength(3),
-        Validators.pattern(/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s\.,&-]+$/) 
-      ]],
+      razonSocial: ['', [Validators.required, Validators.minLength(3), Validators.pattern(/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s\.,&-]+$/)]],
       perfil: ['pyme', Validators.required],
-      email: ['', [
-        Validators.required,
-        Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
-      ]],
-      password: ['', [
-        Validators.required, 
-        Validators.pattern(/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)
-      ]]
+      email: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
+      password: ['', [Validators.required, Validators.pattern(/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)]],
+      eula: [{value: false, disabled: true}, Validators.requiredTrue] 
     });
   }
 
-  togglePassword() {
-    this.showPassword = !this.showPassword;
+  togglePassword() { this.showPassword = !this.showPassword; }
+
+  openEulaModal(event: Event) {
+    event.preventDefault();
+    this.isEulaModalOpen = true;
+  }
+
+  closeEulaModal() {
+    this.isEulaModalOpen = false;
+  }
+
+  onEulaScroll(event: Event) {
+    const element = event.target as HTMLElement;
+    if (element.scrollHeight - element.scrollTop <= element.clientHeight + 5) {
+      this.eulaScrolled = true;
+      this.registerForm.get('eula')?.enable(); 
+    }
   }
 
   onRegister() {
@@ -42,8 +52,8 @@ export class RegisterComponent {
       this.registerForm.markAllAsTouched();
       return;
     }
-    const randomId = Math.floor(Math.random() * 1000000).toString();
     
+    const randomId = Math.floor(Math.random() * 1000000).toString();
     localStorage.setItem('auth_token', 'mock-token-nuevo-usuario');
     localStorage.setItem('user_name', this.registerForm.value.razonSocial);
     localStorage.setItem('empresa_id', randomId);

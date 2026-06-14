@@ -8,6 +8,8 @@ export interface User {
   password?: string;
   name: string;
   role: string;
+  nit?: string;
+  ci?: string;
 }
 
 @Injectable({

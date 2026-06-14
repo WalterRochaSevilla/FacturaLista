@@ -1,25 +1,17 @@
 <div class="app-layout">
-    <nav class="topbar">
-        <div class="topbar-left">
-        <div class="logo-app">FacturaLista <span class="badge">PRO</span></div>
-        </div>
-        <div class="topbar-right">
-        <div class="user-profile">
-            <div class="avatar">{{ userName.charAt(0) }}</div>
-            <span class="user-name">{{ userName }}</span>
-        </div>
-        <button class="btn-logout" (click)="logout()">Cerrar Sesión</button>
-        </div>
-    </nav>
+    <app-navbar></app-navbar>
 
     <main class="dashboard-content">
         <header class="page-header">
-        <div>
+        <div class="header-titles">
             <h1 class="page-title">Panel de Control</h1>
             <p class="page-subtitle">Resumen fiscal del período actual</p>
         </div>
         <div class="header-actions">
-            <button class="btn-primary shadow-btn">+ Cargar Nueva Factura</button>
+            <button class="btn-primary shadow-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Cargar Nueva Factura
+            </button>
         </div>
         </header>
 
@@ -61,7 +53,7 @@
             <div class="table-actions">
             <input type="text" class="search-input" placeholder="Buscar por NIT o Razón Social...">
             <button class="btn-export">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px; vertical-align: middle;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                 Exportar TXT (SIAT)
             </button>
             </div>
@@ -76,7 +68,7 @@
                 <th>Razón Social</th>
                 <th>Nº Factura</th>
                 <th class="text-right">Importe Total</th>
-                <th class="text-right">Base CF (13%)</th>
+                <th class="text-right text-nowrap">Base CF (13%)</th>
                 <th>Estado</th>
                 </tr>
             </thead>

@@ -1,0 +1,14 @@
+<nav class="topbar">
+    <div class="topbar-left">
+        <div class="logo-app" routerLink="/dashboard" style="cursor: pointer;">
+        FacturaLista <span class="badge">PRO</span>
+        </div>
+    </div>
+    <div class="topbar-right">
+        <div class="user-profile" routerLink="/settings" title="Ir a Configuración de Cuenta">
+        <div class="avatar">{{ userName.charAt(0) }}</div>
+        <span class="user-name">{{ userName }}</span>
+        </div>
+        <button class="btn-logout" (click)="logout()">Cerrar Sesión</button>
+    </div>
+</nav>
