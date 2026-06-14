@@ -1,0 +1,22 @@
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="brand-header">
+        <h2 routerLink="/">FacturaLista</h2>
+        <p>Bienvenido de vuelta</p>
+        </div>
+
+        <form (submit)="onLogin($event)">
+        <label class="form-label">Correo Electrónico</label>
+        <input type="email" class="form-input" placeholder="tucorreo@empresa.com" required>
+
+        <label class="form-label">Contraseña</label>
+        <input type="password" class="form-input" placeholder="••••••••" required>
+
+        <button type="submit" class="btn-primary">Ingresar al Sistema</button>
+        </form>
+
+        <div class="auth-footer">
+        <p>¿No tienes una cuenta? <a routerLink="/register">Regístrate aquí</a></p>
+        </div>
+    </div>
+</div>

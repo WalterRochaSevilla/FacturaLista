@@ -1,0 +1,101 @@
+<div class="app-layout">
+    <nav class="topbar">
+        <div class="topbar-left">
+        <div class="logo-app">FacturaLista <span class="badge">PRO</span></div>
+        </div>
+        <div class="topbar-right">
+        <div class="user-profile">
+            <div class="avatar">{{ userName.charAt(0) }}</div>
+            <span class="user-name">{{ userName }}</span>
+        </div>
+        <button class="btn-logout" (click)="logout()">Cerrar Sesión</button>
+        </div>
+    </nav>
+
+    <main class="dashboard-content">
+        <header class="page-header">
+        <div>
+            <h1 class="page-title">Panel de Control</h1>
+            <p class="page-subtitle">Resumen fiscal del período actual</p>
+        </div>
+        <div class="header-actions">
+            <button class="btn-primary shadow-btn">+ Cargar Nueva Factura</button>
+        </div>
+        </header>
+
+        <section class="summary-section">
+        <div class="card metric-card">
+            <div class="metric-icon blue">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <div class="metric-info">
+            <h3>Débito Fiscal (Ventas)</h3>
+            <p class="amount">Bs. {{ resumen?.debito | number:'1.2-2' }}</p>
+            </div>
+        </div>
+        
+        <div class="card metric-card">
+            <div class="metric-icon green">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+            </div>
+            <div class="metric-info">
+            <h3>Crédito Fiscal (Compras)</h3>
+            <p class="amount">Bs. {{ resumen?.credito | number:'1.2-2' }}</p>
+            </div>
+        </div>
+        
+        <div class="card metric-card highlight">
+            <div class="metric-icon red">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/></svg>
+            </div>
+            <div class="metric-info">
+            <h3>Saldo IVA a Pagar</h3>
+            <p class="amount">Bs. {{ resumen?.saldo | number:'1.2-2' }}</p>
+            </div>
+        </div>
+        </section>
+
+        <section class="card table-card">
+        <div class="table-header">
+            <h2>Libro de Compras y Ventas (LCV)</h2>
+            <div class="table-actions">
+            <input type="text" class="search-input" placeholder="Buscar por NIT o Razón Social...">
+            <button class="btn-export">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px; vertical-align: middle;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Exportar TXT (SIAT)
+            </button>
+            </div>
+        </div>
+        
+        <div class="table-responsive">
+            <table class="factura-table">
+            <thead>
+                <tr>
+                <th>Fecha</th>
+                <th>NIT Proveedor</th>
+                <th>Razón Social</th>
+                <th>Nº Factura</th>
+                <th class="text-right">Importe Total</th>
+                <th class="text-right">Base CF (13%)</th>
+                <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let factura of facturas">
+                <td>{{ factura.fechaEmision }}</td>
+                <td class="font-mono">{{ factura.nitEmisor }}</td>
+                <td class="font-bold">{{ factura.razonSocialEmisor }}</td>
+                <td>{{ factura.numeroFactura }}</td>
+                <td class="text-right">Bs. {{ factura.importeTotal | number:'1.2-2' }}</td>
+                <td class="text-right text-green">Bs. {{ factura.importeBaseCreditoFiscal | number:'1.2-2' }}</td>
+                <td><span class="status-badge success">Registrado</span></td>
+                </tr>
+                <tr *ngIf="facturas.length === 0">
+                <td colspan="7" class="empty-state">No hay facturas registradas en este período.</td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
+        </section>
+    </main>
+</div>

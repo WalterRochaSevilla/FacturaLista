@@ -1,0 +1,31 @@
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="brand-header">
+        <h2 routerLink="/">FacturaLista</h2>
+        <p>Crea tu cuenta gratis</p>
+        </div>
+
+        <form (submit)="onRegister($event)">
+        <label class="form-label">Razón Social / Nombre</label>
+        <input type="text" class="form-input" placeholder="Ej. Cochatech SRL" required>
+
+        <label class="form-label">Perfil de Usuario</label>
+        <select class="form-input" required>
+            <option value="pyme">Soy una PYME</option>
+            <option value="contador">Soy Contador (Manejo varias PYMES)</option>
+        </select>
+
+        <label class="form-label">Correo Electrónico</label>
+        <input type="email" class="form-input" placeholder="tucorreo@empresa.com" required>
+
+        <label class="form-label">Contraseña</label>
+        <input type="password" class="form-input" placeholder="••••••••" required>
+
+        <button type="submit" class="btn-primary">Crear Cuenta</button>
+        </form>
+
+        <div class="auth-footer">
+        <p>¿Ya tienes una cuenta? <a routerLink="/login">Inicia Sesión</a></p>
+        </div>
+    </div>
+</div>
