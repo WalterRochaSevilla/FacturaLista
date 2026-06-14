@@ -1,0 +1,16 @@
+[
+    {
+        "id": "1234567015",
+        "email": "admin@cochatech.com",
+        "password": "Password1!",
+        "name": "Cochatech SRL",
+        "role": "pyme"
+    },
+    {
+        "id": "9998887770",
+        "email": "test@empresa.com",
+        "password": "Password1!",
+        "name": "Empresa Test SA",
+        "role": "pyme"
+    }
+]

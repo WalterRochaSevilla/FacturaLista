@@ -5,21 +5,54 @@
         <p>Crea tu cuenta gratis</p>
         </div>
 
-        <form (submit)="onRegister($event)">
-        <label class="form-label">Razón Social / Nombre</label>
-        <input type="text" class="form-input" placeholder="Ej. Cochatech SRL" required>
+        <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+        
+        <div class="form-group">
+            <label class="form-label">Razón Social / Nombre</label>
+            <input type="text" class="form-input" formControlName="razonSocial" placeholder="Ej. Cochatech SRL"
+                [class.is-invalid]="registerForm.get('razonSocial')?.invalid && registerForm.get('razonSocial')?.touched">
+            <div class="error-message" *ngIf="registerForm.get('razonSocial')?.invalid && registerForm.get('razonSocial')?.touched">
+            <span *ngIf="registerForm.get('razonSocial')?.errors?.['required']">Este campo es obligatorio.</span>
+            <span *ngIf="registerForm.get('razonSocial')?.errors?.['minlength']">Debe tener al menos 3 caracteres.</span>
+            <span *ngIf="registerForm.get('razonSocial')?.errors?.['pattern']">Contiene caracteres no válidos.</span>
+            </div>
+        </div>
 
-        <label class="form-label">Perfil de Usuario</label>
-        <select class="form-input" required>
+        <div class="form-group">
+            <label class="form-label">Perfil de Usuario</label>
+            <select class="form-input select-with-arrow" formControlName="perfil">
             <option value="pyme">Soy una PYME</option>
             <option value="contador">Soy Contador (Manejo varias PYMES)</option>
-        </select>
+            </select>
+        </div>
 
-        <label class="form-label">Correo Electrónico</label>
-        <input type="email" class="form-input" placeholder="tucorreo@empresa.com" required>
+        <div class="form-group">
+            <label class="form-label">Correo Electrónico</label>
+            <input type="email" class="form-input" formControlName="email" placeholder="tucorreo@empresa.com"
+                [class.is-invalid]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+            <div class="error-message" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+            <span *ngIf="registerForm.get('email')?.errors?.['required']">El correo es obligatorio.</span>
+            <span *ngIf="registerForm.get('email')?.errors?.['pattern']">Ingresa un formato de correo real (ej. nombre@dominio.com).</span>
+            </div>
+        </div>
 
-        <label class="form-label">Contraseña</label>
-        <input type="password" class="form-input" placeholder="••••••••" required>
+        <div class="form-group">
+            <label class="form-label">Contraseña</label>
+            <div class="password-wrapper">
+            <input [type]="showPassword ? 'text' : 'password'" class="form-input" formControlName="password" placeholder="••••••••"
+                    [class.is-invalid]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+            
+            <button type="button" class="btn-eye" (click)="togglePassword()">
+                <svg *ngIf="!showPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg *ngIf="showPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+            </button>
+            </div>
+            
+            <div class="error-message" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+            <span *ngIf="registerForm.get('password')?.errors?.['required']">La contraseña es obligatoria.</span>
+            <span *ngIf="registerForm.get('password')?.errors?.['pattern']">Debe tener min. 8 caracteres, incluir una mayúscula, un número y un caracter especial.</span>
+            </div>
+        </div>
 
         <button type="submit" class="btn-primary">Crear Cuenta</button>
         </form>
