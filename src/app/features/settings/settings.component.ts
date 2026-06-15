@@ -27,15 +27,17 @@ export class SettingsComponent implements OnInit {
   ngOnInit(): void {
     this.profileForm.patchValue({
       name: localStorage.getItem('user_name') || '',
-      email: 'usuario@empresa.com',
+      email: localStorage.getItem('user_email') || '',
       documentType: 'nit',
-      documentNumber: localStorage.getItem('empresa_id') || ''
+      documentNumber: localStorage.getItem('document_number') || ''
     });
   }
 
   onSaveProfile() {
     if (this.profileForm.valid) {
       localStorage.setItem('user_name', this.profileForm.value.name);
+      localStorage.setItem('document_number', this.profileForm.value.documentNumber);
+      
       this.savedMessage = true;
       setTimeout(() => this.savedMessage = false, 3000);
     }

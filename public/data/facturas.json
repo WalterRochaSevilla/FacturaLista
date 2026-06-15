@@ -5,7 +5,6 @@
     "nitEmisor": "1020304050",
     "razonSocialEmisor": "Cine Center",
     "numeroFactura": "00123",
-    "numeroAutorizacion": "CUF-9876543210987654321",
     "fechaEmision": "2026-06-10",
     "nitComprador": "1234567015",
     "importeTotal": 150.00,
@@ -18,11 +17,22 @@
     "nitEmisor": "1122334455",
     "razonSocialEmisor": "Supermercado Hipermaxi",
     "numeroFactura": "00789",
-    "numeroAutorizacion": "CUF-112233445566778899",
     "fechaEmision": "2026-06-13",
     "nitComprador": "1234567015",
     "importeTotal": 320.00,
     "descuentos": 20.00,
     "importeBaseCreditoFiscal": 300.00
+  },
+  {
+    "empresaId": "1234567015",
+    "tipo": "venta",
+    "nitEmisor": "1234567015",
+    "razonSocialEmisor": "Cliente Genérico SRL",
+    "numeroFactura": "00001",
+    "fechaEmision": "2026-06-14",
+    "nitComprador": "9988776655",
+    "importeTotal": 5000.00,
+    "descuentos": 0,
+    "importeBaseCreditoFiscal": 5000.00
   }
 ]

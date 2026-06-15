@@ -5,7 +5,7 @@
         <header class="page-header">
         <div class="header-titles">
             <h1 class="page-title">Panel de Control</h1>
-            <p class="page-subtitle">Resumen fiscal del período actual</p>
+            <p class="page-subtitle">Resumen fiscal dinámico del período actual</p>
         </div>
         <div class="header-actions">
             <button class="btn-primary shadow-btn">
@@ -21,8 +21,8 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
             </div>
             <div class="metric-info">
-            <h3>Débito Fiscal (Ventas)</h3>
-            <p class="amount">Bs. {{ resumen?.debito | number:'1.2-2' }}</p>
+            <h3>Débito Fiscal (13% Ventas)</h3>
+            <p class="amount">Bs. {{ debitoTotal | number:'1.2-2' }}</p>
             </div>
         </div>
         
@@ -31,8 +31,8 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
             </div>
             <div class="metric-info">
-            <h3>Crédito Fiscal (Compras)</h3>
-            <p class="amount">Bs. {{ resumen?.credito | number:'1.2-2' }}</p>
+            <h3>Crédito Fiscal (13% Compras)</h3>
+            <p class="amount">Bs. {{ creditoTotal | number:'1.2-2' }}</p>
             </div>
         </div>
         
@@ -41,8 +41,8 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/></svg>
             </div>
             <div class="metric-info">
-            <h3>Saldo IVA a Pagar</h3>
-            <p class="amount">Bs. {{ resumen?.saldo | number:'1.2-2' }}</p>
+            <h3>Saldo IVA {{ saldoTotal > 0 ? 'a Pagar' : 'a Favor' }}</h3>
+            <p class="amount">Bs. {{ (saldoTotal < 0 ? saldoTotal * -1 : saldoTotal) | number:'1.2-2' }}</p>
             </div>
         </div>
         </section>
@@ -51,7 +51,7 @@
         <div class="table-header">
             <h2>Libro de Compras y Ventas (LCV)</h2>
             <div class="table-actions">
-            <input type="text" class="search-input" placeholder="Buscar por NIT o Razón Social...">
+            <input type="text" class="search-input" [(ngModel)]="searchQuery" placeholder="Buscar por NIT o Razón Social...">
             <button class="btn-export">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                 Exportar TXT (SIAT)
@@ -63,27 +63,39 @@
             <table class="factura-table">
             <thead>
                 <tr>
+                <th>Tipo</th>
                 <th>Fecha</th>
-                <th>NIT Proveedor</th>
+                <th>NIT Proveedor/Cliente</th>
                 <th>Razón Social</th>
                 <th>Nº Factura</th>
                 <th class="text-right">Importe Total</th>
-                <th class="text-right text-nowrap">Base CF (13%)</th>
+                <th class="text-right text-nowrap">Impuesto (13%)</th>
                 <th>Estado</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let factura of facturas">
+                <tr *ngFor="let factura of filteredFacturas">
+                <td>
+                    <span class="type-badge" [class.type-compra]="factura.tipo === 'compra'" [class.type-venta]="factura.tipo === 'venta'">
+                    {{ factura.tipo | uppercase }}
+                    </span>
+                </td>
                 <td>{{ factura.fechaEmision }}</td>
                 <td class="font-mono">{{ factura.nitEmisor }}</td>
                 <td class="font-bold">{{ factura.razonSocialEmisor }}</td>
                 <td>{{ factura.numeroFactura }}</td>
                 <td class="text-right">Bs. {{ factura.importeTotal | number:'1.2-2' }}</td>
-                <td class="text-right text-green">Bs. {{ factura.importeBaseCreditoFiscal | number:'1.2-2' }}</td>
+                
+                <td class="text-right text-bold" [ngClass]="factura.tipo === 'compra' ? 'text-green' : 'text-blue'">
+                    Bs. {{ factura.importeBaseCreditoFiscal * 0.13 | number:'1.2-2' }}
+                </td>
+                
                 <td><span class="status-badge success">Registrado</span></td>
                 </tr>
-                <tr *ngIf="facturas.length === 0">
-                <td colspan="7" class="empty-state">No hay facturas registradas en este período.</td>
+                <tr *ngIf="filteredFacturas.length === 0">
+                <td colspan="8" class="empty-state">
+                    <p>No se encontraron facturas con "{{ searchQuery }}"</p>
+                </td>
                 </tr>
             </tbody>
             </table>

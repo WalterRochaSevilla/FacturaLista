@@ -71,54 +71,66 @@
     </div>
 
     <div class="modal-overlay" *ngIf="isEulaModalOpen" (click)="closeEulaModal()">
-    <div class="modal-card" (click)="$event.stopPropagation()">
-        
-        <div class="modal-header">
-        <h3>Términos y Condiciones de Uso</h3>
-        <button type="button" class="btn-close" (click)="closeEulaModal()">&times;</button>
-        </div>
+        <div class="modal-card" (click)="$event.stopPropagation()">
+            
+            <div class="modal-header">
+            <h3>Contrato de Adhesión y Términos de Servicio</h3>
+            <button type="button" class="btn-close" (click)="closeEulaModal()">&times;</button>
+            </div>
 
-        <div class="modal-body" (scroll)="onEulaScroll($event)">
-        <p class="text-muted text-xs mb-4">Por favor, desplázate hasta el final para habilitar la casilla de aceptación.</p>
-        
-        <div class="eula-section">
-            <h4>1. Aceptación del Servicio</h4>
-            <p>Al utilizar FacturaLista, usted acepta quedar vinculado por estos términos legales para el uso de nuestro software como servicio (SaaS).</p>
-        </div>
+            <div class="modal-body" (scroll)="onEulaScroll($event)">
+            <p class="text-muted text-xs mb-4">Por favor, desplázate hasta el final para habilitar la casilla de aceptación. Este documento tiene validez legal.</p>
+            
+            <div class="eula-section">
+                <h4>1. Naturaleza del Servicio y Aceptación</h4>
+                <p>Al hacer clic en "Aceptar", crear una cuenta o utilizar la plataforma FacturaLista (en adelante, "el Software"), usted ("el Contribuyente" o "el Usuario") acepta quedar vinculado legalmente por las presentes Condiciones de Servicio (ToS) y el Acuerdo de Licencia de Usuario Final (EULA). El Software se proporciona como un servicio (SaaS) diseñado para la digitalización, extracción de datos mediante Inteligencia Artificial y consolidación del Libro de Compras y Ventas (LCV).</p>
+            </div>
 
-        <div class="eula-section">
-            <h4>2. Privacidad y Derechos ARCO</h4>
-            <p>En estricto cumplimiento con la legislación de protección de datos de Bolivia, usted conserva en todo momento el derecho de <strong>Acceso, Rectificación, Cancelación y Oposición</strong> respecto a sus datos fiscales y de usuario registrados en esta plataforma.</p>
-        </div>
+            <div class="eula-section">
+                <h4>2. Exención de Responsabilidad Tributaria</h4>
+                <p>FacturaLista opera estrictamente como una herramienta de apoyo administrativo y contable. El Software realiza validaciones aritméticas y calcula estimaciones del 13% del IVA basándose en los datos extraídos o introducidos manualmente. <strong>Bajo ninguna circunstancia FacturaLista, sus desarrolladores o empresas matrices serán responsables por multas, recargos, auditorías o sanciones impuestas por el Servicio de Impuestos Nacionales (SIN).</strong> La revisión, aprobación y envío final de las declaraciones juradas y del LCV recae única e íntegramente sobre el Contribuyente y/o su contador autorizado.</p>
+            </div>
 
-        <div class="eula-section">
-            <h4>3. Límite de Responsabilidad</h4>
-            <p>El software funciona exclusivamente como una herramienta de digitalización y apoyo contable. La responsabilidad final y legal sobre la declaración del Libro de Compras y Ventas (LCV) recae íntegramente sobre el contribuyente ante el Servicio de Impuestos Nacionales (SIN).</p>
-        </div>
+            <div class="eula-section">
+                <h4>3. Propiedad Intelectual y Licencia Limitada</h4>
+                <p>Se le otorga una licencia revocable, no exclusiva, intransferible y limitada para acceder y utilizar el Software dentro del Estado Plurinacional de Bolivia. Usted no podrá: (a) modificar, desensamblar, descompilar o aplicar ingeniería inversa al Software; (b) alquilar, arrendar, prestar, revender o sublicenciar el Software a terceros no autorizados; (c) utilizar el Software para desarrollar un producto competidor.</p>
+            </div>
 
-        <div class="eula-section">
-            <h4>4. Seguridad de la Información</h4>
-            <p>Sus datos personales y las fotografías o documentos de sus facturas están cifrados. Se utilizarán de manera exclusiva para la extracción de la información tributaria requerida para la funcionalidad de su cuenta.</p>
-        </div>
+            <div class="eula-section">
+                <h4>4. Procesamiento de Datos e Inteligencia Artificial</h4>
+                <p>El Software utiliza modelos de Inteligencia Artificial de terceros (incluyendo, pero no limitándose a, Google Gemini) para la extracción óptica de caracteres (OCR) y análisis de documentos. Usted consiente explícitamente que las imágenes de sus facturas sean transmitidas a estos proveedores de IA exclusivamente para el propósito de extracción de datos (NIT, número de autorización, importes, fechas). Se prohíbe el uso de estas imágenes para el entrenamiento de modelos de lenguaje públicos.</p>
+            </div>
 
-        <div class="eula-section">
-            <h4>5. Licencia de Uso</h4>
-            <p>Se le otorga una licencia limitada, no exclusiva e intransferible para el uso de las herramientas de esta plataforma dentro del territorio nacional.</p>
-        </div>
+            <div class="eula-section">
+                <h4>5. Política de Privacidad y Derechos ARCO</h4>
+                <p>En estricto cumplimiento con la normativa boliviana e internacional sobre protección de datos personales, FacturaLista garantiza el ejercicio de sus derechos:</p>
+                <ul style="margin-top: 0.5rem; margin-bottom: 0.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 0.85rem;">
+                <li><strong>Acceso:</strong> Derecho a solicitar un reporte de todos los datos fiscales almacenados en nuestros servidores.</li>
+                <li><strong>Rectificación:</strong> Derecho a corregir datos inexactos a través del panel de configuración.</li>
+                <li><strong>Cancelación:</strong> Derecho a solicitar la eliminación permanente de su cuenta y borrado criptográfico de sus facturas.</li>
+                <li><strong>Oposición:</strong> Derecho a negarse al procesamiento de sus datos para fines comerciales.</li>
+                </ul>
+                <p>Sus datos se almacenan en infraestructuras de bases de datos seguras (PostgreSQL) con aislamiento lógico por identificador de empresa (tenant).</p>
+            </div>
 
-        <div class="eula-section">
-            <h4>6. Derecho de Cancelación</h4>
-            <p>Puede ejercer su derecho de cancelación en cualquier momento desde el panel de configuración de su cuenta. Dicha acción desencadenará la eliminación de sus datos de forma permanente de nuestros servidores, sin posibilidad de recuperación.</p>
-        </div>
-        
-        <p class="text-center text-muted" style="margin-top: 2rem; font-weight: bold;">--- Fin del Documento ---</p>
-        </div>
+            <div class="eula-section">
+                <h4>6. Disponibilidad del Servicio (SLA)</h4>
+                <p>Nos esforzamos por mantener una disponibilidad del servicio del 99.9%. Sin embargo, FacturaLista no garantiza que el servicio será ininterrumpido o libre de errores. Nos reservamos el derecho de suspender el acceso por mantenimiento programado o por violaciones a estos términos de servicio.</p>
+            </div>
 
-        <div class="modal-footer">
-        <span class="text-xs text-muted" *ngIf="!eulaScrolled">Sigue leyendo para habilitar...</span>
-        <span class="text-xs text-success" *ngIf="eulaScrolled" style="color: var(--secondary-color); font-weight: 600;">✓ Contrato leído</span>
-        <button type="button" class="btn-primary" style="width: auto; padding: 0.5rem 1.5rem;" [disabled]="!eulaScrolled" (click)="closeEulaModal()">Entendido</button>
-        </div>
+            <div class="eula-section">
+                <h4>7. Modificaciones al Contrato</h4>
+                <p>FacturaLista se reserva el derecho de modificar estos términos en cualquier momento. Las modificaciones sustanciales serán notificadas a través de la plataforma o por correo electrónico con al menos 15 días de anticipación. El uso continuado del Software tras dichas modificaciones constituye su aceptación de los nuevos términos.</p>
+            </div>
+            
+            <p class="text-center text-muted" style="margin-top: 2rem; font-weight: bold;">--- Fin del Documento ---</p>
+            </div>
+
+            <div class="modal-footer">
+            <span class="text-xs text-muted" *ngIf="!eulaScrolled">Continúe leyendo hasta el final...</span>
+            <span class="text-xs text-success" *ngIf="eulaScrolled" style="color: var(--secondary-color); font-weight: 600;">✓ Contrato leído y comprendido</span>
+            <button type="button" class="btn-primary" style="width: auto; padding: 0.5rem 1.5rem;" [disabled]="!eulaScrolled" (click)="closeEulaModal()">Cerrar y Aceptar</button>
+            </div>
 
     </div>
 </div>
