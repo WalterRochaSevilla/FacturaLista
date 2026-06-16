@@ -1,6 +1,7 @@
 .landing-page {
     min-height: 100vh;
-    background-color: var(--bg-main);
+    /* background-color: var(--bg-main); */
+    background-color: transparent !important;
     display: flex;
     flex-direction: column;
 }
@@ -10,8 +11,14 @@
     justify-content: space-between;
     align-items: center;
     padding: 1.5rem 5%;
-    background: white;
-    border-bottom: 1px solid var(--border-color);
+    background-color: var(--bg-glass);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(128, 128, 128, 0.15);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    transition: background-color 0.3s ease;
 }
 
 .brand {
@@ -53,13 +60,14 @@
 
 .badge-new {
     display: inline-block;
-    background-color: #eff6ff;
-    color: var(--primary-color);
+    background-color: var(--bg-badge);
+    color: var(--text-badge);
     padding: 0.5rem 1rem;
     border-radius: 9999px;
     font-size: 0.85rem;
     font-weight: 600;
     margin-bottom: 1.5rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .hero-content h1 {
@@ -135,4 +143,48 @@
     color: var(--text-muted);
     border-top: 1px solid var(--border-color);
     font-size: 0.9rem;
+}
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 5%;
+    background: var(--bg-card); /* Cambiado a variable */
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.3s ease;
+    }
+
+.features-section {
+    padding: 4rem 5%;
+    background: var(--bg-card); /* Cambiado a variable */
+    flex-grow: 1;
+    transition: background-color 0.3s ease;
+}
+
+.landing-footer {
+    text-align: center;
+    padding: 2rem;
+    background: var(--bg-card); /* Cambiado a variable */
+    color: var(--text-muted);
+    border-top: 1px solid var(--border-color);
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn-theme-toggle {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.btn-theme-toggle:hover {
+    background-color: var(--border-color);
+    color: var(--primary-color);
 }

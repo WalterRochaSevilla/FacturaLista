@@ -1,6 +1,7 @@
 .app-layout {
     min-height: 100vh;
-    background-color: var(--bg-main);
+    /* background-color: var(--bg-main); */
+    background-color: transparent !important; 
     display: flex;
     flex-direction: column;
 }
@@ -104,9 +105,15 @@
 .btn-outline:hover { border-color: var(--primary-color); color: var(--primary-color); }
 
 .danger-zone {
-    background-color: #fff1f2; padding: 1rem; border-radius: 8px; border: 1px dashed #fecdd3;
+    background-color: rgba(225, 29, 72, 0.08);
+    padding: 1rem; 
+    border-radius: 8px; 
+    border: 1px dashed var(--danger-color);
 }
-.text-danger { color: var(--danger-color) !important; }
+
+.text-danger { 
+    color: var(--danger-color) !important; 
+}
 
 .btn-danger {
     background-color: var(--danger-color); color: white; border: none;

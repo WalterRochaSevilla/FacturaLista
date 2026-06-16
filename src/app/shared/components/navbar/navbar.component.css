@@ -1,5 +1,9 @@
 .topbar {
-    background-color: #1e293b; /* Tema oscuro elegante */
+    background-color: var(--bg-glass);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(128, 128, 128, 0.15);
+    
     height: 64px;
     display: flex;
     justify-content: space-between;
@@ -8,21 +12,21 @@
     position: sticky;
     top: 0;
     z-index: 100;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .logo-app {
     font-size: 1.25rem;
     font-weight: 800;
-    color: #ffffff;
+    color: var(--primary-color);
     display: flex;
     align-items: center;
     gap: 0.5rem;
 }
 
 .badge {
-    background-color: var(--primary-color);
-    color: white;
+    background-color: var(--bg-badge);
+    color: var(--text-badge);
     font-size: 0.6rem;
     padding: 0.2rem 0.4rem;
     border-radius: 4px;
@@ -46,7 +50,7 @@
 }
 
 .user-profile:hover {
-    background-color: #334155;
+    background-color: var(--border-color);
 }
 
 .avatar {
@@ -64,22 +68,40 @@
 .user-name {
     font-weight: 600;
     font-size: 0.9rem;
-    color: #f8fafc;
+    color: var(--text-main);
 }
 
 .btn-logout {
     background: transparent;
-    border: 1px solid #475569;
+    border: 1px solid var(--border-color);
     padding: 0.4rem 0.8rem;
     border-radius: 6px;
     font-size: 0.85rem;
-    color: #cbd5e1;
+    color: var(--text-muted);
     cursor: pointer;
     transition: all 0.2s;
 }
 
 .btn-logout:hover {
-    background-color: #0f172a;
+    background-color: var(--danger-color);
     color: #ffffff;
-    border-color: #94a3b8;
+    border-color: var(--danger-color);
+}
+
+.btn-theme-toggle {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.btn-theme-toggle:hover {
+    background-color: var(--border-color);
+    color: var(--primary-color);
 }

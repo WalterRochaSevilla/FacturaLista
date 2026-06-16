@@ -1,21 +1,48 @@
 :root {
-    --primary-color: #4f46e5; 
-    --primary-hover: #4338ca;
-    --secondary-color: #0d9488; 
-    --warning-color: #d97706; 
+    --primary-color: #1e3a8a; 
+    --primary-hover: #1e40af;
+    --secondary-color: #059669; 
+    --warning-color: #d97706;
     --danger-color: #e11d48; 
-    
-    --text-main: #111827;  
-    --text-muted: #4b5563;
-    --bg-main: #f8fafc; 
-    --bg-card: #ffffff;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --bg-main: #fcfbf9; 
+    --bg-card: #ffffff; 
     --border-color: #e2e8f0;
-    --focus-ring: rgba(79, 70, 229, 0.3);
+    --focus-ring: rgba(30, 58, 138, 0.3);
+    --bg-badge: #e0e7ff;
+    --text-badge: #1e3a8a;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-card: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+    --bg-pattern: radial-gradient(#e2e8f0 1.5px, transparent 2px);
+    --bg-pattern-size: 24px 24px;
+    --bg-pattern-position: 0 0;
+    --bg-glass: rgba(252, 251, 249, 0.85);
 }
 
-*:focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 3px var(--focus-ring);
+[data-theme="dark"] {
+    --primary-color: #6366f1;
+    --primary-hover: #4f46e5;
+    --secondary-color: #10b981;
+    --warning-color: #fbbf24;
+    --danger-color: #fb7185; 
+    
+    --text-main: #f4f4f5; 
+    --text-muted: #a1a1aa;
+    --bg-main: #121212; 
+    --bg-card: #1e1e1e; 
+    --border-color: #2d2d2d;
+    --focus-ring: rgba(99, 102, 241, 0.3);
+    --bg-badge: rgba(99, 102, 241, 0.15);
+    --text-badge: #818cf8;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+    --shadow-card: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+    --bg-pattern: 
+        radial-gradient(circle at 20px 30px, rgba(255, 255, 255, 0.3) 1px, transparent 1px),
+        radial-gradient(circle at 60px 80px, rgba(255, 255, 255, 0.2) 1.5px, transparent 1.5px),
+        radial-gradient(circle at 90px 40px, rgba(255, 255, 255, 0.1) 2px, transparent 2px);
+    --bg-pattern-size: 120px 120px;
+    --bg-glass: rgba(18, 18, 18, 0.85);
 }
 
 body, html {
@@ -23,11 +50,25 @@ body, html {
     padding: 0;
     font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: var(--bg-main);
+    background-image: var(--bg-pattern);
+    background-size: var(--bg-pattern-size);
+    background-position: var(--bg-pattern-position);
     color: var(--text-main);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-* {
-    box-sizing: border-box;
+* { box-sizing: border-box; }
+
+*:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.card, .auth-card, .modal-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-card);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .form-input {
@@ -36,14 +77,30 @@ body, html {
     border: 1px solid var(--border-color);
     border-radius: 6px;
     font-size: 1rem;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    background-color: var(--bg-card);
+    color: var(--text-main);
+    box-shadow: var(--shadow-sm);
+    transition: border-color 0.2s, box-shadow 0.2s, background-color 0.3s ease, color 0.3s ease;
     margin-bottom: 1.5rem;
 }
 
 .form-input:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.form-input:disabled {
+    background-color: rgba(128, 128, 128, 0.1);
+    color: var(--text-main) !important;
+    opacity: 0.5;
+    cursor: not-allowed;
+    border-color: var(--border-color);
+    box-shadow: none;
+}
+select.form-input, select.form-input option {
+    color: var(--text-main) !important;
+    background-color: var(--bg-card) !important;
 }
 
 .btn-primary {
@@ -56,9 +113,17 @@ body, html {
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.2s;
+    box-shadow: var(--shadow-sm); 
+    transition: background-color 0.2s, transform 0.1s;
 }
 
-.btn-primary:hover {
+.btn-primary:hover:not(:disabled) {
     background-color: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+.btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    box-shadow: none;
 }
