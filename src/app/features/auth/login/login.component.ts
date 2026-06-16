@@ -3,6 +3,7 @@ import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
+
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -12,7 +13,9 @@ import { AuthService } from '../../../core/services/auth.service';
 })
 export class LoginComponent {
   loginForm: FormGroup;
-  errorMessage: string = '';
+  showPassword = false;
+  loginError = false;
+  isLoading = false;
 
   constructor(
     private fb: FormBuilder, 
@@ -25,25 +28,26 @@ export class LoginComponent {
     });
   }
 
-  onLogin() {
-    if (this.loginForm.invalid) {
-      this.loginForm.markAllAsTouched();
-      return;
-    }
+  togglePassword() { 
+    this.showPassword = !this.showPassword; 
+  }
 
-    const { email, password } = this.loginForm.value;
-    
-    this.authService.login(email, password).subscribe({
-      next: (user) => {
-        if (user) {
+  onLogin() {
+    if (this.loginForm.valid) {
+      this.isLoading = true;
+      this.loginError = false;
+      const { email, password } = this.loginForm.value;
+      
+      this.authService.login(email, password).subscribe({
+        next: (user) => {
+          this.isLoading = false;
           this.router.navigate(['/dashboard']);
-        } else {
-          this.errorMessage = 'Correo o contraseña incorrectos.';
+        },
+        error: (err) => {
+          this.isLoading = false;
+          this.loginError = true;
         }
-      },
-      error: () => {
-        this.errorMessage = 'Error de conexión con el servidor.';
-      }
-    });
+      });
+    }
   }
 }

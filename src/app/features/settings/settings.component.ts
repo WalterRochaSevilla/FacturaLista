@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-settings',
@@ -13,45 +14,78 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
 })
 export class SettingsComponent implements OnInit {
   profileForm: FormGroup;
-  savedMessage: boolean = false;
+  modal = {
+    isOpen: false,
+    title: '',
+    message: '',
+    type: 'info',
+    confirmText: 'Aceptar',
+    action: () => {}
+  };
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
     this.profileForm = this.fb.group({
-      name: ['', Validators.required],
-      email: [{value: '', disabled: true}],
-      documentType: ['nit'],
-      documentNumber: ['', [Validators.required, Validators.pattern(/^[0-9]+$/)]]
+      name: [{ value: '', disabled: false }],
+      email: [{ value: '', disabled: true }],
+      documentType: [{ value: 'nit', disabled: false }],
+      documentNumber: [{ value: '', disabled: false }]
     });
   }
 
   ngOnInit(): void {
-    this.profileForm.patchValue({
-      name: localStorage.getItem('user_name') || '',
-      email: localStorage.getItem('user_email') || '',
-      documentType: 'nit',
-      documentNumber: localStorage.getItem('document_number') || ''
-    });
-  }
-
-  onSaveProfile() {
-    if (this.profileForm.valid) {
-      localStorage.setItem('user_name', this.profileForm.value.name);
-      localStorage.setItem('document_number', this.profileForm.value.documentNumber);
-      
-      this.savedMessage = true;
-      setTimeout(() => this.savedMessage = false, 3000);
+    const user = this.authService.getCurrentUser();
+    if (user) {
+      this.profileForm.patchValue({
+        name: user.name,
+        email: user.email,
+        documentType: 'nit',
+        documentNumber: user.nit || ''
+      });
     }
   }
 
-  downloadData() {
-    alert('Empaquetando datos (Derecho de Acceso/Portabilidad)... Se descargará un ZIP en breve.');
+  saveChanges() {
+    this.openModal('Éxito', 'Los cambios en tu perfil han sido guardados correctamente.', 'info', 'Entendido', () => this.closeModal());
+  }
+
+  exportData() {
+    this.openModal(
+      'Exportando Datos', 
+      'Empaquetando datos (Derecho de Acceso/Portabilidad)... Se descargará un archivo ZIP de forma segura en breve.', 
+      'info', 
+      'Aceptar', 
+      () => this.closeModal()
+    );
+  }
+
+  viewEULA() {
+    this.openModal(
+      'Contrato de Adhesión (EULA)', 
+      'Al utilizar FacturaLista, aceptas el procesamiento de tus facturas para la extracción de datos mediante IA. Tus datos no se venden a terceros.', 
+      'info', 
+      'Cerrar', 
+      () => this.closeModal()
+    );
   }
 
   deleteAccount() {
-    if (confirm('¿Estás seguro? Esto ejercerá tu Derecho de Cancelación (ARCO). Todos tus datos serán borrados permanentemente.')) {
-      alert('Cuenta eliminada. Redirigiendo...');
-      localStorage.clear();
-      window.location.href = '/';
-    }
+    this.openModal(
+      'Eliminar Cuenta Definitivamente', 
+      '¿Estás seguro? Esta acción ejercerá tu Derecho de Cancelación. Se borrarán todos tus LCV, facturas y credenciales. Esta acción no se puede deshacer.', 
+      'danger', 
+      'Sí, eliminar cuenta', 
+      () => {
+        this.authService.logout();
+        this.router.navigate(['/']);
+      }
+    );
+  }
+
+  openModal(title: string, message: string, type: string, confirmText: string, action: () => void) {
+    this.modal = { isOpen: true, title, message, type, confirmText, action };
+  }
+
+  closeModal() {
+    this.modal.isOpen = false;
   }
 }

@@ -1,1 +1,80 @@
-<p>upload-modal works!</p>
+<div class="modal-overlay" (click)="onClose()">
+    <div class="modal-card" (click)="$event.stopPropagation()">
+        
+        <div class="modal-header">
+        <h3>Cargar Nueva Factura</h3>
+        <button class="btn-close" (click)="onClose()">&times;</button>
+        </div>
+
+        <div class="modal-body">
+        
+        <div class="drop-zone" 
+            [class.dragging]="isDragging"
+            (dragover)="onDragOver($event)"
+            (dragleave)="onDragLeave($event)"
+            (drop)="onDrop($event)"
+            *ngIf="!selectedFile && !isUploading && !uploadSuccess">
+            
+            <div class="drop-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            </div>
+            
+            <h4>Arrastra tu factura aquí</h4>
+            <p class="text-muted text-sm mb-4">Soporta PDF, JPG, PNG.</p>
+            
+            <div class="divider"><span>O</span></div>
+
+            <div class="action-buttons">
+            <input type="file" id="fileDesktop" class="hidden-input" accept="image/*,application/pdf" (change)="onFileSelected($event)">
+            <label for="fileDesktop" class="btn-outline">Buscar Archivo</label>
+
+            <input type="file" id="fileCamera" class="hidden-input" accept="image/*" capture="environment" (change)="onFileSelected($event)">
+            <label for="fileCamera" class="btn-primary camera-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px;"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+                Tomar Foto
+            </label>
+            </div>
+        </div>
+
+        <div class="preview-zone" *ngIf="selectedFile && !isUploading && !uploadSuccess">
+            <div class="file-info clickable-preview" (click)="openPreview()" title="Haz clic para previsualizar">
+            <div class="file-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            </div>
+            <div class="file-details">
+                <p class="file-name">{{ selectedFile.name }}</p>
+                <p class="file-size">{{ (selectedFile.size / 1024 / 1024).toFixed(2) }} MB</p>
+            </div>
+            </div>
+            <div class="preview-actions">
+            <button class="btn-outline" (click)="selectedFile = null">Cancelar</button>
+            <button class="btn-primary" (click)="uploadFile()">Subir Documento</button>
+            </div>
+        </div>
+
+        <div class="loading-zone" *ngIf="isUploading">
+            <div class="os-loader" style="margin: 0 auto 1.5rem auto;"></div>
+            <h4 style="color: var(--primary-color);">Subiendo documento...</h4>
+            <p class="text-muted text-sm">Enviando el archivo seguro al servidor para su almacenamiento.</p>
+        </div>
+
+        <div class="success-zone" *ngIf="uploadSuccess">
+            <div class="success-icon" style="color: var(--secondary-color); margin-bottom: 1rem;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <h4 style="color: var(--secondary-color); margin: 0 0 0.5rem 0;">¡Carga Exitosa!</h4>
+            <p class="text-muted text-sm mb-4">El documento está listo para ser analizado por la IA.</p>
+            
+            <div class="doc-id-box" style="background: var(--bg-main); padding: 1rem; border-radius: 8px; border: 1px dashed var(--border-color); display: inline-block;">
+            <span style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">ID del Documento (docId):</span>
+            <strong style="font-family: monospace; font-size: 1.1rem; color: var(--primary-color);">{{ generatedDocId }}</strong>
+            </div>
+
+            <div style="margin-top: 2rem;">
+            <button class="btn-primary" (click)="onClose()">Cerrar y Volver al Panel</button>
+            </div>
+        </div>
+
+        </div>
+    </div>
+</div>

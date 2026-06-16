@@ -58,3 +58,18 @@
 .auth-footer a:hover {
     text-decoration: underline;
 }
+/* .spinner-icon { animation: spin 1s linear infinite; } */
+
+.os-loader {
+    width: 64px;
+    height: 64px;
+    border: 5px solid var(--border-color);
+    border-top-color: var(--secondary-color);
+    border-radius: 50%;
+    animation: spin 1s cubic-bezier(0.5, 0.1, 0.4, 0.9) infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

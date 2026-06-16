@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { CommonModule } from '@angular/common'; 
+import { CommonModule } from '@angular/common';
 import { ThemeService } from '../../../core/services/theme.service';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -11,16 +12,21 @@ import { ThemeService } from '../../../core/services/theme.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  userName: string = 'Usuario';
+  userName: string = 'Mi Empresa';
 
-  constructor(private router: Router, public themeService: ThemeService) {}
+  constructor(
+    private router: Router, 
+    public themeService: ThemeService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
-    this.userName = localStorage.getItem('user_name') || 'Mi Empresa';
+    const user = this.authService.getCurrentUser();
+    this.userName = user ? user.name : 'Mi Empresa';
   }
 
   logout() {
-    localStorage.clear();
-    this.router.navigate(['/']);
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }

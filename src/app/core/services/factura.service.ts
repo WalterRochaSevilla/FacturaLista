@@ -1,29 +1,45 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of, map } from 'rxjs';
-import { Factura, ResumenIVA } from '../models/factura.model';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { AuthService } from './auth.service';
+
+export interface Factura {
+  empresaId: string;
+  tipo: 'compra' | 'venta';
+  nitEmisor: string;
+  razonSocialEmisor: string;
+  numeroFactura: string;
+  fechaEmision: string;
+  nitComprador: string;
+  importeTotal: number;
+  descuentos: number;
+  importeBaseCreditoFiscal: number;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class FacturaService {
+  private apiRealUrl = 'http://localhost:3000/api/facturas';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   getFacturas(): Observable<Factura[]> {
-    if (localStorage.getItem('user_type') === 'new') {
+    const user = this.authService.getCurrentUser();
+    if (!user) {
+      console.warn('No hay usuario en sesión. Redirige al login.');
       return of([]);
     }
-    const empresaId = localStorage.getItem('empresa_id');
-    return this.http.get<Factura[]>('/data/facturas.json').pipe(
-      map(facturas => facturas.filter(f => f.empresaId === empresaId))
+    return this.http.get<Factura[]>(`${this.apiRealUrl}?empresaId=${user.id}`).pipe(
+      catchError(() => {
+        console.warn('⚠️ API de facturas inaccesible. Usando fallback local...');
+    
+        return this.http.get<Factura[]>('/data/facturas.json').pipe(
+          map(facturas => facturas.filter(f => f.empresaId === user.id)),
+          catchError(() => of([])) 
+        );
+      })
     );
-  }
-
-  getResumenIVA(): Observable<ResumenIVA> {
-    if (localStorage.getItem('user_type') === 'new') {
-      return of({ debito: 0, credito: 0, saldo: 0 });
-    }
-    return this.http.get<ResumenIVA>('/data/resumen.json');
   }
 }

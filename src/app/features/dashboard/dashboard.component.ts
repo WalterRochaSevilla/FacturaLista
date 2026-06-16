@@ -4,27 +4,41 @@ import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
 import { FacturaService } from '../../core/services/factura.service';
 import { Factura } from '../../core/models/factura.model';
+import { UploadModalComponent } from '../../shared/components/upload-modal/upload-modal.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule, NavbarComponent],
+  imports: [CommonModule, FormsModule, NavbarComponent, UploadModalComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+  isLoading = true;
   facturas: Factura[] = [];
   searchQuery: string = '';
   debitoTotal: number = 0;
   creditoTotal: number = 0;
   saldoTotal: number = 0;
+  isUploadModalOpen = false;
 
   constructor(private facturaService: FacturaService) {}
 
   ngOnInit(): void {
-    this.facturaService.getFacturas().subscribe(data => {
-      this.facturas = data;
-      this.calcularImpuestos();
+    this.cargarFacturas();
+  }
+  cargarFacturas() {
+    this.isLoading = true;
+    this.facturaService.getFacturas().subscribe({
+      next: (data) => {
+        this.facturas = data;
+        this.isLoading = false;
+        this.calcularImpuestos();
+      }, 
+      error: (error) => {
+        console.error('Error al cargar facturas:', error);
+        this.isLoading = false;
+      }
     });
   }
 
@@ -51,5 +65,13 @@ export class DashboardComponent implements OnInit {
     this.debitoTotal = baseVentas * 0.13;
     this.creditoTotal = baseCompras * 0.13;
     this.saldoTotal = this.debitoTotal - this.creditoTotal;
+  }
+
+  onModalClose(success: boolean) {
+    this.isUploadModalOpen = false;
+    
+    if (success) {
+      this.cargarFacturas();
+    }
   }
 }

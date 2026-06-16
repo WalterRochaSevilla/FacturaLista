@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { Observable, map, catchError, throwError } from 'rxjs';
 
 export interface User {
   id: string;
@@ -16,23 +16,36 @@ export interface User {
   providedIn: 'root'
 })
 export class AuthService {
+  private apiRealUrl = 'http://localhost:3000/api'; 
 
   constructor(private http: HttpClient) { }
 
   login(email: string, password: string): Observable<User | null> {
-    return this.http.get<User[]>('/data/users.json').pipe(
-      map(users => {
-        const user = users.find(u => u.email === email && u.password === password);
+    return this.http.post<User>(`${this.apiRealUrl}/login`, { email, password }).pipe(
+      catchError((error) => {
+        console.warn('⚠️ Backend inaccesible. Redirigiendo a Mocks locales...');
+        
+        return this.http.get<User[]>('/data/users.json').pipe(
+          map(users => {
+            const user = users.find(u => u.email === email && u.password === password);
+            if (!user) throw new Error('Credenciales inválidas');
+            return user;
+          })
+        );
+      }),
+      map(user => {
         if (user) {
-          localStorage.setItem('auth_token', 'mock-token-' + user.id);
-          localStorage.setItem('user_name', user.name);
-          localStorage.setItem('empresa_id', user.id);
-          localStorage.setItem('user_type', 'existing');
-          return user;
+          localStorage.setItem('auth_token', 'token-' + user.id);
+          localStorage.setItem('user_data', JSON.stringify(user));
         }
-        return null;
+        return user;
       })
     );
+  }
+
+  getCurrentUser(): User | null {
+    const data = localStorage.getItem('user_data');
+    return data ? JSON.parse(data) : null;
   }
 
   logout(): void {
