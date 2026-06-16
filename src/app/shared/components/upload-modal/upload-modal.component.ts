@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { catchError, finalize } from 'rxjs/operators';
 import { of } from 'rxjs';
 
@@ -19,10 +20,14 @@ export class UploadModalComponent {
   isUploading = false;
   uploadSuccess = false;
   generatedDocId: string | null = null;
+  showInlinePreview = false;
+  safePreviewUrl: SafeResourceUrl | null = null;
+  isPdf = false;
+  isImage = false;
 
-  private apiUploadUrl = 'http://localhost:3000/upload';
+  private apiUploadUrl = 'http://localhost:3000/api/upload';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private sanitizer: DomSanitizer) {}
 
   onClose() {
     this.close.emit(this.uploadSuccess);
@@ -56,15 +61,19 @@ export class UploadModalComponent {
   private validateAndSetFile(file: File) {
     if (file.type.match(/image\/*/) || file.type === 'application/pdf') {
       this.selectedFile = file;
+      this.showInlinePreview = false;
+      this.isPdf = file.type === 'application/pdf';
+      this.isImage = file.type.startsWith('image/');
+      const objectUrl = URL.createObjectURL(file);
+      this.safePreviewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(objectUrl);
+      
     } else {
       alert('Solo se permiten imágenes (JPG, PNG) o PDFs.');
     }
   }
-  openPreview() {
-    if (this.selectedFile) {
-      const fileURL = URL.createObjectURL(this.selectedFile);
-      window.open(fileURL, '_blank');
-    }
+
+  togglePreview() {
+    this.showInlinePreview = !this.showInlinePreview;
   }
 
   uploadFile() {
@@ -83,7 +92,7 @@ export class UploadModalComponent {
         setTimeout(() => {
           this.isUploading = false;
           this.uploadSuccess = true;
-        }, 1000);
+        }, 1500);
       })
     ).subscribe(res => {
       this.generatedDocId = res.docId;

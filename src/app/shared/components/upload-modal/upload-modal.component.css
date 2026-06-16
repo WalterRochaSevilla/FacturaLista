@@ -164,3 +164,95 @@
     text-align: center; 
     padding: 3rem 1rem; 
 }
+
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 1000;
+}
+
+.modal-card {
+    background: var(--bg-card); 
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-card); 
+    width: 90%; 
+    max-width: 800px; /* ¡Aumentamos de 550px a 800px para que el documento respire! */
+    border-radius: 12px; 
+    display: flex; 
+    flex-direction: column;
+    transition: max-width 0.3s ease; /* Para que si cambia de tamaño lo haga suave */
+}
+
+.modal-header {
+    padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border-color);
+    display: flex; justify-content: space-between; align-items: center;
+}
+
+.modal-header h3 { margin: 0; font-size: 1.15rem; color: var(--text-main); }
+.btn-close { background: none; border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; transition: color 0.2s; }
+.btn-close:hover { color: var(--danger-color); }
+
+.modal-body { padding: 2rem; max-height: 80vh; overflow-y: auto; }
+.drop-zone {
+    border: 2px dashed var(--border-color); border-radius: 12px;
+    padding: 3rem 1.5rem; text-align: center; transition: all 0.2s ease;
+}
+.drop-zone.dragging { border-color: var(--primary-color); background-color: rgba(99, 102, 241, 0.05); }
+.drop-icon { color: var(--text-muted); margin-bottom: 1rem; }
+.drop-zone.dragging .drop-icon { color: var(--primary-color); transform: translateY(-5px); transition: transform 0.2s; }
+.drop-zone h4 { margin: 0 0 0.5rem 0; color: var(--text-main); }
+.mb-4 { margin-bottom: 1.5rem; }
+.text-sm { font-size: 0.85rem; }
+
+.divider { margin: 1.5rem 0; position: relative; text-align: center; }
+.divider::before, .divider::after { content: ''; position: absolute; top: 50%; width: 40%; height: 1px; background: var(--border-color); }
+.divider::before { left: 0; }
+.divider::after { right: 0; }
+.divider span { color: var(--text-muted); font-size: 0.85rem; background: var(--bg-card); padding: 0 10px; position: relative; z-index: 1; }
+
+.action-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+.hidden-input { display: none; }
+
+.btn-outline {
+    background: transparent; border: 1px solid var(--border-color); padding: 0.6rem 1.2rem;
+    border-radius: 6px; cursor: pointer; font-weight: 600; color: var(--text-main);
+    transition: all 0.2s; display: inline-block; text-align: center;
+}
+.btn-outline:hover { background: var(--bg-main); border-color: var(--primary-color); color: var(--primary-color); }
+.camera-btn { display: flex; align-items: center; justify-content: center; width: auto; padding: 0.6rem 1.2rem; margin: 0; }
+
+.preview-zone { border: 1px solid var(--border-color); border-radius: 8px; padding: 1.5rem; background-color: var(--bg-main); transition: all 0.3s ease; }
+.file-info { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; border-radius: 6px; padding: 0.5rem; }
+.clickable-preview { cursor: pointer; transition: background-color 0.2s; border: 1px solid transparent; }
+.clickable-preview:hover { background-color: var(--bg-card); border: 1px solid var(--border-color); }
+.file-icon { color: var(--primary-color); background: rgba(99, 102, 241, 0.1); padding: 0.75rem; border-radius: 8px; }
+.file-details { overflow: hidden; }
+.file-name { margin: 0; font-weight: 600; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.file-size { margin: 0; font-size: 0.8rem; color: var(--text-muted); }
+.preview-actions { display: flex; justify-content: flex-end; gap: 1rem; }
+
+.inline-preview-container {
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #1a1a1a;
+    border: 1px solid var(--border-color);
+    width: 100%;
+    height: 55vh; 
+    min-height: 450px; 
+    
+    display: block;
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.media-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; 
+    border: none;
+    display: block;
+}
+
+.loading-zone, .success-zone { text-align: center; padding: 3rem 1rem; }
