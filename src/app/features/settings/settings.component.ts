@@ -4,16 +4,19 @@ import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
 import { AuthService } from '../../core/services/auth.service';
+import { EulaModalComponent } from '../../shared/components/eula-modal/eula-modal.component';
 
 @Component({
   selector: 'app-settings',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, NavbarComponent],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, NavbarComponent, EulaModalComponent],
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent implements OnInit {
   profileForm: FormGroup;
+  isEulaModalOpen = false;
+
   modal = {
     isOpen: false,
     title: '',
@@ -59,13 +62,7 @@ export class SettingsComponent implements OnInit {
   }
 
   viewEULA() {
-    this.openModal(
-      'Contrato de Adhesión (EULA)', 
-      'Al utilizar FacturaLista, aceptas el procesamiento de tus facturas para la extracción de datos mediante IA. Tus datos no se venden a terceros.', 
-      'info', 
-      'Cerrar', 
-      () => this.closeModal()
-    );
+    this.isEulaModalOpen = true;
   }
 
   deleteAccount() {

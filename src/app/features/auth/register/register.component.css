@@ -3,7 +3,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    /* background-color: var(--bg-main); */
     background-color: transparent !important;
     padding: 1rem;
 }
@@ -59,11 +58,6 @@
     box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
 }
 
-select.form-input {
-    appearance: none;
-    background-color: white;
-}
-
 .error-message {
     color: var(--danger-color);
     font-size: 0.8rem;
@@ -114,16 +108,6 @@ select.form-input {
 .auth-footer a:hover {
     text-decoration: underline;
 }
-.alert-error {
-    background-color: #fef2f2;
-    color: var(--danger-color);
-    padding: 0.75rem;
-    border-radius: 6px;
-    border: 1px solid #fca5a5;
-    margin-bottom: 1.5rem;
-    font-size: 0.9rem;
-    text-align: center;
-}
 
 select.form-input.select-with-arrow {
     appearance: none;
@@ -135,45 +119,6 @@ select.form-input.select-with-arrow {
     padding-right: 2.5rem;
 }
 
-.eula-wrapper {
-    margin-top: 1.5rem;
-    margin-bottom: 1rem;
-}
-
-.eula-box {
-    height: 150px;
-    overflow-y: auto;
-    background-color: #f8fafc;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    padding: 1rem;
-    font-size: 0.8rem;
-    line-height: 1.5;
-    color: var(--text-main);
-    scrollbar-width: thin;
-    scrollbar-color: var(--text-muted) transparent;
-}
-
-.eula-box::-webkit-scrollbar {
-    width: 6px;
-}
-
-.eula-box::-webkit-scrollbar-thumb {
-    background-color: var(--text-muted);
-    border-radius: 10px;
-}
-
-.eula-box h4 {
-    margin-top: 0;
-    margin-bottom: 0.75rem;
-    color: var(--primary-color);
-    font-size: 0.9rem;
-}
-
-.eula-box p {
-    margin-bottom: 0.75rem;
-}
-
 .eula-checkbox-container {
     display: flex;
     align-items: flex-start;
@@ -192,32 +137,6 @@ select.form-input.select-with-arrow {
 }
 
 .text-xs { font-size: 0.8rem; }
-.mb-2 { margin-bottom: 0.5rem; }
-.disabled-text { opacity: 0.6; cursor: not-allowed; }
-
-.btn-primary:disabled {
-    background-color: var(--text-muted);
-    cursor: not-allowed;
-    opacity: 0.7;
-}
-.eula-checkbox-container {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.5rem;
-}
-
-.custom-checkbox {
-    margin-top: 0.2rem;
-    cursor: pointer;
-}
-
-.custom-checkbox:disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
-}
-
-.text-xs { font-size: 0.8rem; }
-.mb-4 { margin-bottom: 1.5rem; }
 .disabled-text { opacity: 0.6; cursor: not-allowed; }
 
 .link-btn-modal {
@@ -232,88 +151,8 @@ select.form-input.select-with-arrow {
     font-size: inherit;
 }
 
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(15, 23, 42, 0.75);
-    backdrop-filter: blur(4px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.modal-card {
-    background: var(--bg-card);
-    width: 90%;
-    max-width: 600px;
-    border-radius: 12px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    display: flex;
-    flex-direction: column;
-    max-height: 85vh;
-}
-
-.modal-header {
-    padding: 1.25rem 1.5rem;
-    border-bottom: 1px solid var(--border-color);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.modal-header h3 {
-    margin: 0;
-    font-size: 1.15rem;
-    color: var(--text-main);
-}
-
-.btn-close {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    line-height: 1;
-    color: var(--text-muted);
-    cursor: pointer;
-}
-
-.btn-close:hover { color: var(--danger-color); }
-
-.modal-body {
-    padding: 1.5rem;
-    overflow-y: auto;
-    flex-grow: 1;
-    scrollbar-width: thin;
-    scrollbar-color: #cbd5e1 transparent;
-}
-
-.modal-body::-webkit-scrollbar { width: 6px; }
-.modal-body::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
-
-.eula-section { margin-bottom: 1.5rem; }
-.eula-section h4 { color: var(--text-main); margin: 0 0 0.5rem 0; font-size: 0.95rem; }
-.eula-section p { margin: 0; color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; }
-
-.modal-footer {
-    padding: 1rem 1.5rem;
-    border-top: 1px solid var(--border-color);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: var(--bg-main);
-    border-bottom-left-radius: 12px;
-    border-bottom-right-radius: 12px;
-}
-
-select.form-input.select-with-arrow {
-    appearance: none;
-    background-color: white;
-    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236b7280%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
-    background-repeat: no-repeat;
-    background-position: right 1rem top 50%;
-    background-size: 0.65rem auto;
-    padding-right: 2.5rem;
+.btn-primary:disabled {
+    background-color: var(--text-muted);
+    cursor: not-allowed;
+    opacity: 0.7;
 }

@@ -100,7 +100,8 @@
                     {{ modal.confirmText }}
                 </button>
             </div>
-            
         </div>
     </div>
+
+    <app-eula-modal *ngIf="isEulaModalOpen" [requireScrollToAccept]="false" (closeEvent)="isEulaModalOpen = false"></app-eula-modal>
 </div>

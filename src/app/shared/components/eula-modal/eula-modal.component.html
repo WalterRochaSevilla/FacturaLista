@@ -1,0 +1,49 @@
+<div class="modal-overlay" (click)="onCancel()">
+    <div class="modal-card mini-modal" (click)="$event.stopPropagation()">
+        
+        <div class="modal-header">
+            <h3>Contrato de Adhesión (EULA)</h3>
+            <button type="button" class="btn-close" (click)="onCancel()">&times;</button>
+        </div>
+
+        <div class="modal-body" (scroll)="onScroll($event)">
+            <p *ngIf="requireScrollToAccept" class="text-muted text-xs mb-4">Por favor, desplázate hasta el final para habilitar la aceptación.</p>
+            
+            <div class="eula-section">
+                <h4>1. Naturaleza del Servicio y Aceptación</h4>
+                <p>Al hacer clic en "Aceptar", crear una cuenta o utilizar la plataforma FacturaLista, usted acepta quedar vinculado legalmente por el presente Acuerdo de Licencia de Usuario Final (EULA). El Software se proporciona para la digitalización, extracción de datos mediante Inteligencia Artificial y consolidación del Libro de Compras y Ventas (LCV).</p>
+            </div>
+
+            <div class="eula-section">
+                <h4>2. Exención de Responsabilidad Tributaria</h4>
+                <p>FacturaLista opera estrictamente como una herramienta de apoyo administrativo. <strong>Bajo ninguna circunstancia FacturaLista será responsable por multas, auditorías o sanciones impuestas por el Servicio de Impuestos Nacionales (SIN).</strong> La revisión y envío final de las declaraciones recae única e íntegramente sobre el Contribuyente.</p>
+            </div>
+
+            <div class="eula-section">
+                <h4>3. Propiedad Intelectual y Licencia</h4>
+                <p>Se le otorga una licencia revocable, no exclusiva y limitada para utilizar el Software. No podrá: (a) desensamblar o aplicar ingeniería inversa; (b) revender o sublicenciar a terceros no autorizados; (c) utilizar el Software para desarrollar un producto competidor.</p>
+            </div>
+
+            <div class="eula-section">
+                <h4>4. Procesamiento mediante IA</h4>
+                <p>El Software utiliza modelos de IA de terceros para la extracción óptica de caracteres (OCR). Usted consiente explícitamente que las imágenes de sus facturas sean transmitidas a estos proveedores exclusivamente para extracción. Se prohíbe el uso de estas imágenes para entrenar modelos públicos.</p>
+            </div>
+
+            <div class="eula-section">
+                <h4>5. Política de Privacidad (Derechos ARCO)</h4>
+                <p>Garantizamos el ejercicio de sus derechos de Acceso, Rectificación, Cancelación y Oposición. Sus datos se almacenan en infraestructuras seguras con aislamiento lógico por identificador de empresa.</p>
+            </div>
+            
+            <p class="text-center text-muted" style="margin-top: 2rem; font-weight: bold;">--- Fin del Documento ---</p>
+        </div>
+
+        <div class="modal-footer">
+            <span class="text-xs text-muted" *ngIf="requireScrollToAccept && !hasScrolledToBottom">Continúe leyendo...</span>
+            <span class="text-xs text-success" *ngIf="hasScrolledToBottom" style="color: var(--secondary-color); font-weight: 600;">✓ Comprendido</span>
+            <button type="button" class="btn-primary" [disabled]="!hasScrolledToBottom" (click)="onAccept()">
+                {{ requireScrollToAccept ? 'Aceptar Términos' : 'Cerrar Documento' }}
+            </button>
+        </div>
+
+    </div>
+</div>

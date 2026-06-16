@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { EulaModalComponent } from '../../../shared/components/eula-modal/eula-modal.component';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [RouterLink, ReactiveFormsModule, CommonModule],
+  imports: [RouterLink, ReactiveFormsModule, CommonModule, EulaModalComponent],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
@@ -14,7 +15,6 @@ export class RegisterComponent {
   registerForm: FormGroup;
   showPassword = false;
   isEulaModalOpen = false;
-  eulaScrolled = false;
 
   constructor(private fb: FormBuilder, private router: Router) {
     this.registerForm = this.fb.group({
@@ -33,15 +33,11 @@ export class RegisterComponent {
     this.isEulaModalOpen = true;
   }
 
-  closeEulaModal() {
+  onEulaClosed(accepted: boolean) {
     this.isEulaModalOpen = false;
-  }
-
-  onEulaScroll(event: Event) {
-    const element = event.target as HTMLElement;
-    if (element.scrollHeight - element.scrollTop <= element.clientHeight + 5) {
-      this.eulaScrolled = true;
+    if (accepted) {
       this.registerForm.get('eula')?.enable(); 
+      this.registerForm.patchValue({ eula: true });
     }
   }
 
