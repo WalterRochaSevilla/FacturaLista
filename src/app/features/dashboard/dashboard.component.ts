@@ -74,4 +74,24 @@ export class DashboardComponent implements OnInit {
       this.cargarFacturas();
     }
   }
+  exportarTXT() {
+    if (this.facturas.length === 0) {
+      alert('No hay facturas para exportar.');
+      return;
+    }
+    let contenidoTXT = '';
+    this.facturas.forEach((f, index) => {
+      const linea = `1|${index + 1}|${f.fechaEmision}|${f.nitEmisor}|${f.razonSocialEmisor}|${f.numeroFactura}||${f.importeTotal}|0|0|0|0|${f.importeBaseCreditoFiscal}|13.0|0`;
+      contenidoTXT += linea + '\n';
+    });
+    const blob = new Blob([contenidoTXT], { type: 'text/plain;charset=utf-8' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `LCV_SIAT_${new Date().toISOString().split('T')[0]}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
+  }
 }

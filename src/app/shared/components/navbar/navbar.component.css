@@ -22,17 +22,12 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    text-decoration: none; 
 }
 
-.badge {
-    background-color: var(--bg-badge);
-    color: var(--text-badge);
-    font-size: 0.6rem;
-    padding: 0.2rem 0.4rem;
-    border-radius: 4px;
-    letter-spacing: 1px;
+.hamburger-btn { 
+    display: none; 
 }
-
 .topbar-right {
     display: flex;
     align-items: center;
@@ -63,12 +58,14 @@
     justify-content: center;
     align-items: center;
     font-weight: bold;
+    font-size: 0.9rem;
 }
 
 .user-name {
     font-weight: 600;
     font-size: 0.9rem;
     color: var(--text-main);
+    white-space: nowrap; 
 }
 
 .btn-logout {
@@ -97,11 +94,46 @@
     border-radius: 50%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 0.5rem;
     transition: background-color 0.2s, color 0.2s;
 }
 
 .btn-theme-toggle:hover {
     background-color: var(--border-color);
     color: var(--primary-color);
+}
+
+.theme-text { 
+    display: none; 
+    font-weight: 600; 
+    font-size: 0.9rem; 
+} 
+
+@media (max-width: 768px) {
+    .topbar { padding: 0 1rem; }
+    
+    .hamburger-btn {
+        display: flex; background: transparent; border: none;
+        color: var(--text-main); cursor: pointer; padding: 0.5rem;
+    }
+
+    .topbar-right {
+        position: absolute; top: 64px; left: 0; width: 100%;
+        background: var(--bg-card); border-bottom: 1px solid var(--border-color);
+        flex-direction: column; align-items: stretch; padding: 1.5rem; gap: 1rem;
+        transform: translateY(-10px);
+        opacity: 0; visibility: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+    }
+    .topbar-right.menu-open {
+        transform: translateY(0);
+        opacity: 1; visibility: visible;
+    }
+    .btn-theme-toggle { width: 100%; border-radius: 8px; justify-content: flex-start; padding: 0.75rem; }
+    .btn-theme-toggle:hover { background-color: rgba(128, 128, 128, 0.1); }
+    .theme-text { display: block; }
+    
+    .user-profile { padding: 0.75rem; justify-content: flex-start; }
+    .btn-logout { padding: 0.8rem; font-size: 1rem; font-weight: 600; margin-top: 0.5rem; }
 }

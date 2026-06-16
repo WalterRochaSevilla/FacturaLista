@@ -54,11 +54,34 @@ export class SettingsComponent implements OnInit {
   exportData() {
     this.openModal(
       'Exportando Datos', 
-      'Empaquetando datos (Derecho de Acceso/Portabilidad)... Se descargará un archivo ZIP de forma segura en breve.', 
+      'Empaquetando datos (Derecho de Acceso/Portabilidad)... Se descargará tu archivo en breve.', 
       'info', 
-      'Aceptar', 
-      () => this.closeModal()
+      'Aceptar y Descargar',
+      () => {
+        this.descargarDatosARCO();
+        this.closeModal();
+      }
     );
+  }
+
+  descargarDatosARCO() {
+    const user = this.authService.getCurrentUser();
+    const datosExportar = {
+      informacion_usuario: user,
+      solicitud: 'Ejercicio de Derecho de Acceso y Portabilidad (ARCO)',
+      fecha_exportacion: new Date().toISOString(),
+      estado: 'Completado'
+    };
+
+    const blob = new Blob([JSON.stringify(datosExportar, null, 2)], { type: 'application/json' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Datos_Personales_FacturaLista_${user?.nit || 'Export'}.json`;
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
   }
 
   viewEULA() {

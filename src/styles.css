@@ -45,6 +45,10 @@
     --bg-glass: rgba(18, 18, 18, 0.85);
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body, html {
     margin: 0;
     padding: 0;
@@ -57,11 +61,32 @@ body, html {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-* { box-sizing: border-box; }
+* { 
+    box-sizing: border-box; 
+    -webkit-tap-highlight-color: transparent;
+}
 
 *:focus-visible {
     outline: none;
     box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-main);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
 }
 
 .card, .auth-card, .modal-card {
@@ -98,9 +123,10 @@ body, html {
     border-color: var(--border-color);
     box-shadow: none;
 }
+
 select.form-input, select.form-input option {
-    color: var(--text-main) !important;
-    background-color: var(--bg-card) !important;
+    color: var(--text-main);
+    background-color: var(--bg-card);
 }
 
 .btn-primary {

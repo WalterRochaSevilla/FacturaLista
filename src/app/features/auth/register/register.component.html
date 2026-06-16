@@ -1,71 +1,79 @@
 <div class="auth-container">
-    <div class="auth-card">
-        <div class="brand-header">
-        <h2 routerLink="/">FacturaLista</h2>
-        <p>Crea tu cuenta gratis</p>
-        </div>
-
-        <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+    <div style="width: 100%; max-width: 450px;">
         
-        <div class="form-group">
-            <label class="form-label">Razón Social / Nombre</label>
-            <input type="text" class="form-input" formControlName="razonSocial" placeholder="Ej. Cochatech SRL"
-                [class.is-invalid]="registerForm.get('razonSocial')?.invalid && registerForm.get('razonSocial')?.touched">
-            <div class="error-message" *ngIf="registerForm.get('razonSocial')?.invalid && registerForm.get('razonSocial')?.touched">
-            <span *ngIf="registerForm.get('razonSocial')?.errors?.['required']">Este campo es obligatorio.</span>
-            <span *ngIf="registerForm.get('razonSocial')?.errors?.['pattern']">Contiene caracteres no válidos.</span>
+        <a routerLink="/" style="display: inline-flex; align-items: center; margin-bottom: 1rem; color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: color 0.2s;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px;"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            Volver al inicio
+        </a>
+
+        <div class="auth-card card">
+            <div class="brand-header">
+                <h2 routerLink="/">FacturaLista</h2>
+                <p>Crea tu cuenta gratis</p>
             </div>
-        </div>
 
-        <div class="form-group">
-            <label class="form-label">Perfil de Usuario</label>
-            <select class="form-input select-with-arrow" formControlName="perfil">
-            <option value="pyme">Soy una PYME</option>
-            <option value="contador">Soy Contador (Manejo varias PYMES)</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label class="form-label">Correo Electrónico</label>
-            <input type="email" class="form-input" formControlName="email" placeholder="tucorreo@empresa.com"
-                [class.is-invalid]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
-            <div class="error-message" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
-            <span *ngIf="registerForm.get('email')?.errors?.['required']">El correo es obligatorio.</span>
-            <span *ngIf="registerForm.get('email')?.errors?.['pattern']">Ingresa un formato de correo real.</span>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="form-label">Contraseña</label>
-            <div class="password-wrapper">
-            <input [type]="showPassword ? 'text' : 'password'" class="form-input" formControlName="password" placeholder="••••••••"
-                    [class.is-invalid]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+            <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
             
-            <button type="button" class="btn-eye" (click)="togglePassword()">
-                <svg *ngIf="!showPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                <svg *ngIf="showPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
-            </button>
+                <div class="form-group">
+                    <label class="form-label">Razón Social / Nombre</label>
+                    <input type="text" class="form-input" formControlName="razonSocial" placeholder="Ej. Cochatech SRL"
+                        [class.is-invalid]="registerForm.get('razonSocial')?.invalid && registerForm.get('razonSocial')?.touched">
+                    <div class="error-message" *ngIf="registerForm.get('razonSocial')?.invalid && registerForm.get('razonSocial')?.touched">
+                        <span *ngIf="registerForm.get('razonSocial')?.errors?.['required']">Este campo es obligatorio.</span>
+                        <span *ngIf="registerForm.get('razonSocial')?.errors?.['pattern']">Contiene caracteres no válidos.</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Perfil de Usuario</label>
+                    <select class="form-input select-with-arrow" formControlName="perfil">
+                        <option value="pyme">Soy una PYME</option>
+                        <option value="contador">Soy Contador (Manejo varias PYMES)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Correo Electrónico</label>
+                    <input type="email" class="form-input" formControlName="email" placeholder="tucorreo@empresa.com"
+                        [class.is-invalid]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+                    <div class="error-message" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+                        <span *ngIf="registerForm.get('email')?.errors?.['required']">El correo es obligatorio.</span>
+                        <span *ngIf="registerForm.get('email')?.errors?.['pattern']">Ingresa un formato de correo real.</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Contraseña</label>
+                    <div class="password-wrapper">
+                        <input [type]="showPassword ? 'text' : 'password'" class="form-input" formControlName="password" placeholder="••••••••"
+                                [class.is-invalid]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+                        
+                        <button type="button" class="btn-eye" (click)="togglePassword()">
+                            <svg *ngIf="!showPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            <svg *ngIf="showPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                        </button>
+                    </div>
+                    <div class="error-message" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+                        <span *ngIf="registerForm.get('password')?.errors?.['required']">La contraseña es obligatoria.</span>
+                        <span *ngIf="registerForm.get('password')?.errors?.['pattern']">Mín. 8 caracteres, mayúscula, número y especial.</span>
+                    </div>
+                </div>
+
+                <div class="form-group eula-checkbox-container" style="margin-top: 1.5rem;">
+                    <input type="checkbox" id="eula" formControlName="eula" class="custom-checkbox">
+                    <label for="eula" class="text-muted text-xs" [class.disabled-text]="registerForm.get('eula')?.disabled">
+                        He leído y acepto el 
+                        <button type="button" class="link-btn-modal" (click)="openEulaModal($event)">Contrato de Adhesión (EULA)</button> 
+                        y consiento el tratamiento de datos.
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-primary" [disabled]="registerForm.invalid">Crear Cuenta</button>
+            </form>
+
+            <div class="auth-footer">
+                <p>¿Ya tienes una cuenta? <a routerLink="/login">Inicia Sesión</a></p>
             </div>
-            <div class="error-message" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
-            <span *ngIf="registerForm.get('password')?.errors?.['required']">La contraseña es obligatoria.</span>
-            <span *ngIf="registerForm.get('password')?.errors?.['pattern']">Mín. 8 caracteres, una mayúscula, un número y un caracter especial.</span>
-            </div>
-        </div>
-
-        <div class="form-group eula-checkbox-container" style="margin-top: 1.5rem;">
-            <input type="checkbox" id="eula" formControlName="eula" class="custom-checkbox">
-            <label for="eula" class="text-muted text-xs" [class.disabled-text]="registerForm.get('eula')?.disabled">
-            He leído y acepto el 
-            <button type="button" class="link-btn-modal" (click)="openEulaModal($event)">Contrato de Adhesión (EULA)</button> 
-            y consiento el tratamiento de mis datos.
-            </label>
-        </div>
-
-        <button type="submit" class="btn-primary" [disabled]="registerForm.invalid">Crear Cuenta</button>
-        </form>
-
-        <div class="auth-footer">
-        <p>¿Ya tienes una cuenta? <a routerLink="/login">Inicia Sesión</a></p>
         </div>
     </div>
 </div>

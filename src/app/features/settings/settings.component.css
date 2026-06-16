@@ -138,8 +138,49 @@
 }
 
 @media (max-width: 768px) {
-    .settings-content { padding: 1rem; }
-    .page-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
-    .form-row, .arco-action, .danger-zone { flex-direction: column; align-items: flex-start; gap: 1rem; }
-    .btn-outline, .btn-danger { width: 100%; }
+    .settings-content { padding: 1.5rem; }
+    
+    .page-header { 
+        flex-direction: column; 
+        align-items: flex-start; 
+        gap: 1rem; 
+    }
+
+    .form-row { 
+        grid-template-columns: 1fr; 
+        gap: 0;
+    }
+    
+    .arco-action, .danger-zone { 
+        flex-direction: column; 
+        align-items: flex-start; 
+        gap: 1.25rem; 
+    }
+
+    .btn-outline, .btn-danger, .page-header .btn-outline, form .btn-primary { 
+        width: 100%; 
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .settings-content { 
+        padding: 1rem 0.5rem;
+    }
+
+    .card { 
+        padding: 1.25rem;
+    }
+
+    .page-title { 
+        font-size: 1.5rem;
+    }
+
+    .section-title {
+        font-size: 1.15rem;
+    }
+
+    .arco-info h4, .danger-zone h4 { 
+        font-size: 0.95rem;
+    }
 }

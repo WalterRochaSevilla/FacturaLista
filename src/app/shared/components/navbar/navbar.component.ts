@@ -13,6 +13,8 @@ import { AuthService } from '../../../core/services/auth.service';
 })
 export class NavbarComponent implements OnInit {
   userName: string = 'Mi Empresa';
+  userInitials: string = 'M';
+  isMenuOpen: boolean = false;
 
   constructor(
     private router: Router, 
@@ -22,7 +24,14 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     const user = this.authService.getCurrentUser();
-    this.userName = user ? user.name : 'Mi Empresa';
+    if (user && user.name) {
+      this.userName = user.name;
+      this.userInitials = user.name.charAt(0).toUpperCase();
+    }
+  }
+
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
   }
 
   logout() {
