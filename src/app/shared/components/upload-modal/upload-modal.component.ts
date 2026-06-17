@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { catchError, finalize } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -94,7 +94,12 @@ export class UploadModalComponent {
     const formData = new FormData();
     formData.append('file', this.selectedFile);
 
-    this.http.post<{docId: string}>(this.apiUploadUrl, formData).pipe(
+    const token = localStorage.getItem('auth_token');
+    const headers = token
+      ? new HttpHeaders({ Authorization: `Bearer ${token}` })
+      : undefined;
+
+    this.http.post<{docId: string}>(this.apiUploadUrl, formData, { headers }).pipe(
       catchError(err => {
         console.warn('Endpoint /upload no disponible. Usando fallback...');
         return of({ docId: 'doc-' + Date.now().toString().slice(-6) });

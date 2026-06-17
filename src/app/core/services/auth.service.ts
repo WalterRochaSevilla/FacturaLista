@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map, catchError, throwError } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 export interface User {
   id: string;
@@ -10,32 +10,22 @@ export interface User {
   role: string;
   nit?: string;
   ci?: string;
+  token?: string;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiRealUrl = 'http://localhost:3000/api'; 
+  private apiRealUrl = 'http://localhost:3000/auth';
 
   constructor(private http: HttpClient) { }
 
   login(email: string, password: string): Observable<User | null> {
     return this.http.post<User>(`${this.apiRealUrl}/login`, { email, password }).pipe(
-      catchError((error) => {
-        console.warn('⚠️ Backend inaccesible. Redirigiendo a Mocks locales...');
-        
-        return this.http.get<User[]>('/data/users.json').pipe(
-          map(users => {
-            const user = users.find(u => u.email === email && u.password === password);
-            if (!user) throw new Error('Credenciales inválidas');
-            return user;
-          })
-        );
-      }),
       map(user => {
-        if (user) {
-          localStorage.setItem('auth_token', 'token-' + user.id);
+        if (user && user.token) {
+          localStorage.setItem('auth_token', user.token);
           localStorage.setItem('user_data', JSON.stringify(user));
         }
         return user;
@@ -46,6 +36,10 @@ export class AuthService {
   getCurrentUser(): User | null {
     const data = localStorage.getItem('user_data');
     return data ? JSON.parse(data) : null;
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('auth_token');
   }
 
   logout(): void {

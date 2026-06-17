@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { AuthService } from './auth.service';
@@ -27,17 +27,24 @@ export class FacturaService {
 
   getFacturas(): Observable<Factura[]> {
     const user = this.authService.getCurrentUser();
-    if (!user) {
-      console.warn('No hay usuario en sesión. Redirige al login.');
+    const token = this.authService.getToken();
+
+    if (!user || !token) {
+      console.warn('No hay usuario en sesión o token inválido. Redirige al login.');
       return of([]);
     }
-    return this.http.get<Factura[]>(`${this.apiRealUrl}?empresaId=${user.id}`).pipe(
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http.get<Factura[]>(this.apiRealUrl, { headers }).pipe(
       catchError(() => {
         console.warn('⚠️ API de facturas inaccesible. Usando fallback local...');
     
         return this.http.get<Factura[]>('/data/facturas.json').pipe(
           map(facturas => facturas.filter(f => f.empresaId === user.id)),
-          catchError(() => of([])) 
+          catchError(() => of([]))
         );
       })
     );
