@@ -23,6 +23,9 @@ export class UploadModalComponent {
   generatedDocId: string | null = null;
 
   isAnalyzing = false;
+  isRegistering = false;
+  registerError: string | null = null;
+  registerMessage: string | null = null;
   analysisError: string | null = null;
   analysisResult: {
     extracted: { campos: any; confianza: Record<string, number>; metadatos: any };
@@ -38,11 +41,28 @@ export class UploadModalComponent {
   isCameraActive = false;
 
   private apiUploadUrl = 'http://localhost:3000/api/upload';
+  private apiRegistrarUrl = 'http://localhost:3000/api/registrar';
 
   constructor(private http: HttpClient, private sanitizer: DomSanitizer) {}
 
   onClose() {
     this.close.emit(this.uploadSuccess);
+    // Reset estado para siguiente ciclo
+    this.resetState();
+  }
+
+  private resetState() {
+    this.selectedFile = null;
+    this.uploadSuccess = false;
+    this.generatedDocId = null;
+    this.isAnalyzing = false;
+    this.isRegistering = false;
+    this.registerError = null;
+    this.registerMessage = null;
+    this.analysisError = null;
+    this.analysisResult = null;
+    this.showInlinePreview = false;
+    this.isCameraActive = false;
   }
 
   onDragOver(event: DragEvent) {
@@ -159,5 +179,61 @@ export class UploadModalComponent {
       if (!result) return;
       this.analysisResult = result;
     });
+  }
+
+  registerFactura() {
+    if (!this.analysisResult || !this.generatedDocId) return;
+
+    this.isRegistering = true;
+    this.registerError = null;
+    this.registerMessage = null;
+
+    const token = localStorage.getItem('auth_token');
+    const headers = token
+      ? new HttpHeaders({ Authorization: `Bearer ${token}` })
+      : undefined;
+
+    const extracted = this.analysisResult.extracted;
+    const payload = {
+      empresaId: this.getEmpresaIdFromToken(),
+      tipo: extracted.campos.tipo || 'venta',
+      nitEmisor: extracted.campos.nitEmisor || '',
+      razonSocialEmisor: extracted.campos.razonSocialEmisor || '',
+      numeroFactura: extracted.campos.numeroFactura || '',
+      numeroAutorizacion: extracted.campos.numeroAutorizacion || null,
+      fechaEmision: extracted.campos.fechaEmision || new Date().toISOString(),
+      nitComprador: extracted.campos.nitComprador || null,
+      importeTotal: Number(extracted.campos.importeTotal || 0),
+      descuentos: Number(extracted.campos.descuentos || 0),
+      importeBaseCreditoFiscal: Number(extracted.campos.importeBaseCreditoFiscal || 0),
+    };
+
+    this.http.post<{ id: string }>(this.apiRegistrarUrl, payload, { headers }).pipe(
+      catchError(err => {
+        this.registerError = err.error?.error || err.message || 'Error al agregar al libro de compras y ventas.';
+        return of(null);
+      }),
+      finalize(() => {
+        this.isRegistering = false;
+      })
+    ).subscribe(result => {
+      if (!result) return;
+      this.registerMessage = 'Factura agregada al libro de compras y ventas.';
+      // Cierra el modal automáticamente después de 2 segundos para que el dashboard recargue facturas
+      setTimeout(() => {
+        this.onClose();
+      }, 2000);
+    });
+  }
+
+  private getEmpresaIdFromToken(): string {
+    const token = localStorage.getItem('auth_token');
+    if (!token) return '';
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload?.empresaId || '';
+    } catch {
+      return '';
+    }
   }
 }

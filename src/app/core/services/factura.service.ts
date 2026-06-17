@@ -39,13 +39,9 @@ export class FacturaService {
     });
 
     return this.http.get<Factura[]>(this.apiRealUrl, { headers }).pipe(
-      catchError(() => {
-        console.warn('⚠️ API de facturas inaccesible. Usando fallback local...');
-    
-        return this.http.get<Factura[]>('/data/facturas.json').pipe(
-          map(facturas => facturas.filter(f => f.empresaId === user.id)),
-          catchError(() => of([]))
-        );
+      catchError((err) => {
+        console.warn('⚠️ API de facturas inaccesible.', err?.message ?? err);
+        return of([]);
       })
     );
   }
