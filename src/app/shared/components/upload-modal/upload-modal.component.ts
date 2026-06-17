@@ -22,6 +22,13 @@ export class UploadModalComponent {
   uploadSuccess = false;
   generatedDocId: string | null = null;
 
+  isAnalyzing = false;
+  analysisError: string | null = null;
+  analysisResult: {
+    extracted: { campos: any; confianza: Record<string, number>; metadatos: any };
+    validation: { valida: boolean; errores: string[]; advertencias: string[]; creditoFiscal?: number; hashDedup?: string };
+  } | null = null;
+
   showInlinePreview = false;
   safePreviewUrl: SafeResourceUrl | null = null;
   isPdf = false;
@@ -91,6 +98,8 @@ export class UploadModalComponent {
     if (!this.selectedFile) return;
 
     this.isUploading = true;
+    this.analysisError = null;
+    this.analysisResult = null;
     const formData = new FormData();
     formData.append('file', this.selectedFile);
 
@@ -99,19 +108,56 @@ export class UploadModalComponent {
       ? new HttpHeaders({ Authorization: `Bearer ${token}` })
       : undefined;
 
-    this.http.post<{docId: string}>(this.apiUploadUrl, formData, { headers }).pipe(
+    interface UploadResponse {
+      docId: string;
+      fallback?: boolean;
+    }
+
+    this.http.post<UploadResponse>(this.apiUploadUrl, formData, { headers }).pipe(
       catchError(err => {
-        console.warn('Endpoint /upload no disponible. Usando fallback...');
-        return of({ docId: 'doc-' + Date.now().toString().slice(-6) });
+        this.analysisError = err.error?.error || err.message || 'Error al subir el documento. Comprueba la conexión con el backend.';
+        return of({ docId: 'doc-' + Date.now().toString().slice(-6), fallback: true });
       }),
       finalize(() => {
-        setTimeout(() => {
-          this.isUploading = false;
-          this.uploadSuccess = true;
-        }, 1500); 
+        this.isUploading = false;
       })
     ).subscribe(res => {
+      if (!res?.docId) {
+        return;
+      }
       this.generatedDocId = res.docId;
+      this.uploadSuccess = true;
+      if (!res.fallback) {
+        this.analyzeUpload();
+      }
+    });
+  }
+
+  analyzeUpload() {
+    if (!this.generatedDocId) return;
+
+    this.isAnalyzing = true;
+    this.analysisError = null;
+    this.analysisResult = null;
+
+    const token = localStorage.getItem('auth_token');
+    const headers = token
+      ? new HttpHeaders({ Authorization: `Bearer ${token}` })
+      : undefined;
+
+    this.http.post<{ extracted: any; validation: any }>('http://localhost:3000/api/analizar-scan', {
+      docId: this.generatedDocId,
+    }, { headers }).pipe(
+      catchError(err => {
+        this.analysisError = err.error?.error || err.message || 'Error durante el análisis IA.';
+        return of(null);
+      }),
+      finalize(() => {
+        this.isAnalyzing = false;
+      })
+    ).subscribe(result => {
+      if (!result) return;
+      this.analysisResult = result;
     });
   }
 }

@@ -107,5 +107,5 @@
         </section>
     </main>
 
-    <app-upload-modal *ngIf="isUploadModalOpen" (close)="isUploadModalOpen = false"></app-upload-modal>
+    <app-upload-modal *ngIf="isUploadModalOpen" (close)="onModalClose($event)"></app-upload-modal>
 </div>
