@@ -13,7 +13,7 @@
             (dragover)="onDragOver($event)"
             (dragleave)="onDragLeave($event)"
             (drop)="onDrop($event)"
-            *ngIf="!selectedFile && !isUploading && !uploadSuccess">
+            *ngIf="!selectedFile && !isUploading && !uploadSuccess && !isCameraActive">
             
             <div class="drop-icon">
             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
@@ -28,13 +28,18 @@
             <input type="file" id="fileDesktop" class="hidden-input" accept="image/*,application/pdf" (change)="onFileSelected($event)">
             <label for="fileDesktop" class="btn-outline">Buscar Archivo</label>
 
-            <input type="file" id="fileCamera" class="hidden-input" accept="image/*" capture="environment" (change)="onFileSelected($event)">
-            <label for="fileCamera" class="btn-primary camera-btn">
+            <button type="button" class="btn-primary camera-btn" (click)="isCameraActive = true">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px;"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
-                Tomar Foto
-            </label>
+                Usar Cámara
+            </button>
             </div>
         </div>
+
+        <app-camera-scanner 
+            *ngIf="isCameraActive" 
+            (capture)="onPhotoCaptured($event)" 
+            (cancel)="isCameraActive = false">
+        </app-camera-scanner>
 
         <div class="preview-zone" *ngIf="selectedFile && !isUploading && !uploadSuccess">
             

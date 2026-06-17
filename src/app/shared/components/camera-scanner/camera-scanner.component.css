@@ -1,0 +1,59 @@
+.camera-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.video-container {
+    position: relative;
+    background-color: #000;
+    border-radius: 8px;
+    overflow: hidden;
+    width: 100%;
+    height: 50vh;
+    min-height: 350px;
+    border: 1px solid var(--border-color);
+}
+
+.media-stream {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.scanner-guide {
+    position: absolute;
+    top: 10%; left: 10%; right: 10%; bottom: 10%;
+    border: 2px dashed rgba(255, 255, 255, 0.6);
+    border-radius: 8px;
+    pointer-events: none;
+    box-shadow: 0 0 0 4000px rgba(0, 0, 0, 0.3); /* Oscurece el exterior del recuadro */
+}
+
+.camera-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.error-box {
+    background-color: rgba(225, 29, 72, 0.1);
+    color: var(--danger-color);
+    padding: 1rem;
+    border-radius: 6px;
+    text-align: center;
+    border: 1px solid var(--danger-color);
+}
+
+@media (max-width: 480px) {
+    .video-container {
+        height: 60vh;
+    }
+    .camera-actions {
+        flex-direction: column-reverse;
+    }
+    .camera-actions button {
+        width: 100%;
+        padding: 0.8rem;
+    }
+}

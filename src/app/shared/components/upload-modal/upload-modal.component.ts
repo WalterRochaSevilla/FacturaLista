@@ -4,11 +4,12 @@ import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { catchError, finalize } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { CameraScannerComponent } from '../camera-scanner/camera-scanner.component';
 
 @Component({
   selector: 'app-upload-modal',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, CameraScannerComponent],
   templateUrl: './upload-modal.component.html',
   styleUrls: ['./upload-modal.component.css']
 })
@@ -20,10 +21,14 @@ export class UploadModalComponent {
   isUploading = false;
   uploadSuccess = false;
   generatedDocId: string | null = null;
+
   showInlinePreview = false;
   safePreviewUrl: SafeResourceUrl | null = null;
   isPdf = false;
   isImage = false;
+
+  // Solo necesitamos esta variable para mostrar/ocultar el componente hijo
+  isCameraActive = false;
 
   private apiUploadUrl = 'http://localhost:3000/api/upload';
 
@@ -61,7 +66,8 @@ export class UploadModalComponent {
   private validateAndSetFile(file: File) {
     if (file.type.match(/image\/*/) || file.type === 'application/pdf') {
       this.selectedFile = file;
-      this.showInlinePreview = false;
+      this.showInlinePreview = false; 
+      
       this.isPdf = file.type === 'application/pdf';
       this.isImage = file.type.startsWith('image/');
       const objectUrl = URL.createObjectURL(file);
@@ -74,6 +80,11 @@ export class UploadModalComponent {
 
   togglePreview() {
     this.showInlinePreview = !this.showInlinePreview;
+  }
+
+  onPhotoCaptured(file: File) {
+    this.isCameraActive = false; 
+    this.validateAndSetFile(file); 
   }
 
   uploadFile() {
@@ -92,7 +103,7 @@ export class UploadModalComponent {
         setTimeout(() => {
           this.isUploading = false;
           this.uploadSuccess = true;
-        }, 1500);
+        }, 1500); 
       })
     ).subscribe(res => {
       this.generatedDocId = res.docId;

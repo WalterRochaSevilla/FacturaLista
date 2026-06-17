@@ -51,11 +51,12 @@
 
 .form-input.is-invalid {
     border-color: var(--danger-color);
-    background-color: #fef2f2;
+    background-color: rgba(225, 29, 72, 0.08) !important;
+    color: var(--text-main) !important;
 }
 
 .form-input.is-invalid:focus {
-    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+    box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.15) !important;
 }
 
 .error-message {

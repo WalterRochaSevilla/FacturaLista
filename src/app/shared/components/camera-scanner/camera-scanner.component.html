@@ -1,0 +1,16 @@
+<div class="camera-wrapper">
+    
+    <div class="error-box" *ngIf="errorMsg">
+        {{ errorMsg }}
+    </div>
+
+    <div class="video-container" *ngIf="!errorMsg">
+        <video #videoElement autoplay playsinline class="media-stream" style="transform: scaleX(-1);"></video>
+        <div class="scanner-guide"></div>
+    </div>
+    
+    <div class="camera-actions">
+        <button class="btn-outline" (click)="onCancel()">Cancelar</button>
+        <button class="btn-primary" (click)="takePhoto()" [disabled]="!!errorMsg">Capturar Documento</button>
+    </div>
+</div>
