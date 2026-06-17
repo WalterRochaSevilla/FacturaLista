@@ -71,8 +71,43 @@ export class DashboardComponent implements OnInit {
     this.isUploadModalOpen = false;
     
     if (success) {
-      this.cargarFacturas();
+      // If the uploaded invoice was added, refresh with a wide range
+      const inicio = '2000-01-01';
+      const fin = new Date().toISOString();
+      this.isLoading = true;
+      this.facturaService.getFacturasRange(inicio, fin).subscribe({
+        next: (data) => {
+          this.facturas = data;
+          this.isLoading = false;
+          this.calcularImpuestos();
+        },
+        error: (err) => {
+          console.error('Error al recargar facturas tras registro:', err);
+          this.isLoading = false;
+        }
+      });
     }
+  }
+
+  onDeleteFactura(id?: string) {
+    if (!id) {
+      alert('Factura inválida: id no disponible.');
+      return;
+    }
+    if (!confirm('¿Eliminar factura? Esta acción no se puede deshacer.')) return;
+    this.isLoading = true;
+    this.facturaService.deleteFactura(id).subscribe({
+      next: () => {
+        // remove from local list
+        this.facturas = this.facturas.filter(f => f.id !== id);
+        this.isLoading = false;
+        this.calcularImpuestos();
+      },
+      error: (err) => {
+        console.error('Error al eliminar factura:', err);
+        this.isLoading = false;
+      }
+    });
   }
   exportarTXT() {
     if (this.facturas.length === 0) {

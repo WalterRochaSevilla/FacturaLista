@@ -1,6 +1,7 @@
 export type TipoFactura = 'compra' | 'venta';
 
 export interface Factura {
+    id?: string;
     empresaId: string;
     tipo: TipoFactura;
     nitEmisor: string;

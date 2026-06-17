@@ -77,6 +77,7 @@
                             <th class="text-right">Importe Total</th>
                             <th class="text-right text-nowrap">Impuesto (13%)</th>
                             <th>Estado</th>
+                            <th class="actions-col" style="width: 120px; text-align: center;">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -95,9 +96,12 @@
                                 Bs. {{ factura.importeBaseCreditoFiscal * 0.13 | number:'1.2-2' }}
                             </td>
                             <td><span class="status-badge success">Registrado</span></td>
+                                                        <td class="actions-col">
+                                                            <button class="row-delete-button" (click)="onDeleteFactura(factura.id)">Eliminar</button>
+                                                        </td>
                         </tr>
                         <tr *ngIf="filteredFacturas.length === 0">
-                            <td colspan="8" class="empty-state">
+                            <td colspan="9" class="empty-state">
                                 <p>No se encontraron facturas con "{{ searchQuery }}"</p>
                             </td>
                         </tr>

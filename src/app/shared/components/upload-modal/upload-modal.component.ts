@@ -147,9 +147,13 @@ export class UploadModalComponent {
       }
       this.generatedDocId = res.docId;
       this.uploadSuccess = true;
-      if (!res.fallback) {
-        this.analyzeUpload();
-      }
+      // Do not auto-analyze after upload. Require explicit user action.
+      // Keep generated doc id so user can press "Analizar con IA" when ready.
+      // if (!res.fallback) {
+      //   this.analyzeUpload();
+      // }
+      // no auto-analysis
+
     });
   }
 

@@ -138,6 +138,26 @@
     vertical-align: middle;
 }
 
+.row-delete-button {
+    background-color: var(--danger-color);
+    color: white;
+    border: none;
+    padding: 0.45rem 0.75rem;
+    border-radius: 6px;
+    font-weight: 700;
+    cursor: pointer;
+}
+.row-delete-button:hover { opacity: 0.9; }
+
+.actions-col {
+    position: sticky;
+    right: 0;
+    background: var(--bg-main);
+    z-index: 4;
+    text-align: center;
+}
+.factura-table thead .actions-col { background: var(--bg-main); }
+
 .factura-table tr:last-child td { border-bottom: none; }
 
 .type-badge { padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 700; }
